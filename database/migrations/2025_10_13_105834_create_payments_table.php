@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('organisation_id')->constrained()->onDelete('cascade');
             $table->foreignId('student_id')->constrained()->onDelete('cascade');
-            $table->foreignId('batch_id')->nullable()->constrained()->onDelete('set null');
+            $table->foreignId('batch_id')->nullable()->constrained()->onDelete('cascade');
             $table->decimal('amount', 10, 2);
             $table->date('payment_date');
             $table->string('payment_method')->nullable(); // e.g., Cash, Card, UPI
