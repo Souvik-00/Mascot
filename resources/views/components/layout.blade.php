@@ -1,18 +1,20 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ $title ?? 'Dashboard' }}</title>
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
     <style>
         body {
-            display: flex;
             min-height: 100vh;
             background-color: #f8f9fa;
         }
 
-        /* Sidebar */
+        /* Sidebar (Desktop) */
         .sidebar {
             width: 250px;
             background-color: #212529;
@@ -20,6 +22,9 @@
             padding: 20px 0;
             height: 100vh;
             position: fixed;
+            top: 0;
+            left: 0;
+            overflow-y: auto;
         }
 
         .sidebar h4 {
@@ -42,241 +47,148 @@
             color: #fff;
         }
 
+        /* Navbar */
+        .navbar-custom {
+            position: fixed;
+            top: 0;
+            left: 250px;
+            right: 0;
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            z-index: 1030;
+        }
+
+        .navbar-brand {
+            font-weight: 600;
+            color: #212529 !important;
+        }
+
         /* Main content */
         .main {
-            flex: 1;
-            margin-left: 230px;
+            margin-left: 250px;
+            margin-top: 70px;
             padding: 30px;
         }
     </style>
 </head>
+
 <body>
 
-    <!-- Sidebar -->
-   <div class="sidebar">
-    <h4>Dashboard</h4>
-    
-    <!-- Dashboard Home -->
-    <a href="{{ route('dashboard') }}" class="{{ request()->is('dashboard') ? 'active' : '' }}">🏠 Home</a>
+    <!-- Sidebar (Desktop) -->
+    <div class="sidebar d-none d-lg-block">
+        <h4>Mascot</h4>
 
-    <!-- Organisation Dropdown -->
-    <div class="dropdown px-3 mt-2">
-        <button class="btn btn-dark w-100 dropdown-toggle text-start" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-            🏢 Organisation
-        </button>
-        <ul class="dropdown-menu w-60">
-            <li>
-                <a class="dropdown-item" 
-                   href="{{ route('organisation.create') }}">
-                    ➕ Add Organisation
-                </a>
-            </li>
-            <li>
-                <a class="dropdown-item" 
-                   href="{{ route('organisation.index') }}">
-                    📁 Organisation Directory
-                </a>
-            </li>
-        </ul>
+        <a href="{{ route('dashboard') }}" class="{{ request()->is('dashboard') ? 'active' : '' }}">🏠 Home</a>
+
+        <!-- Organisation -->
+        <div class="dropdown px-3 mt-2">
+            <button class="btn btn-dark w-100 dropdown-toggle text-start" type="button" data-bs-toggle="dropdown">
+                🏢 Organisation
+            </button>
+            <ul class="dropdown-menu w-100">
+                <li><a class="dropdown-item" href="{{ route('organisation.create') }}">➕ Add Organisation</a></li>
+                <li><a class="dropdown-item" href="{{ route('organisation.index') }}">📁 Directory</a></li>
+            </ul>
+        </div>
+
+        <!-- Teachers -->
+        <div class="dropdown px-3 mt-2">
+            <button class="btn btn-dark w-100 dropdown-toggle text-start" type="button" data-bs-toggle="dropdown">
+                👩‍🏫 Teachers
+            </button>
+            <ul class="dropdown-menu w-100">
+                <li><a class="dropdown-item" href="{{ route('teachers.create') }}">➕ Add Teacher</a></li>
+                <li><a class="dropdown-item" href="{{ route('teachers.index') }}">📁 Directory</a></li>
+            </ul>
+        </div>
+
+        <!-- Students -->
+        <div class="dropdown px-3 mt-2">
+            <button class="btn btn-dark w-100 dropdown-toggle text-start" type="button" data-bs-toggle="dropdown">
+                🎓 Students
+            </button>
+            <ul class="dropdown-menu w-100">
+                <li><a class="dropdown-item" href="{{ route('students.create') }}">➕ Add Student</a></li>
+                <li><a class="dropdown-item" href="{{ route('students.index') }}">📁 Directory</a></li>
+            </ul>
+        </div>
+
+        <!-- Batches -->
+        <div class="dropdown px-3 mt-2">
+            <button class="btn btn-dark w-100 dropdown-toggle text-start" type="button" data-bs-toggle="dropdown">
+                📦 Batches
+            </button>
+            <ul class="dropdown-menu w-100">
+                <li><a class="dropdown-item" href="{{ route('batches.create') }}">➕ Add Batch</a></li>
+                <li><a class="dropdown-item" href="{{ route('batches.index') }}">📁 Directory</a></li>
+            </ul>
+        </div>
+
+        <!-- Classrooms -->
+        <div class="dropdown px-3 mt-2">
+            <button class="btn btn-dark w-100 dropdown-toggle text-start" type="button" data-bs-toggle="dropdown">
+                📘 Classrooms
+            </button>
+            <ul class="dropdown-menu w-100">
+                <li><a class="dropdown-item" href="{{ route('classrooms.create') }}">➕ Add Classroom</a></li>
+                <li><a class="dropdown-item" href="{{ route('classrooms.index') }}">📁 Directory</a></li>
+            </ul>
+        </div>
+
+        <!-- Schedules -->
+        <div class="dropdown px-3 mt-2">
+            <button class="btn btn-dark w-100 dropdown-toggle text-start" type="button" data-bs-toggle="dropdown">
+                🗓️ Schedules
+            </button>
+            <ul class="dropdown-menu w-100">
+                <li><a class="dropdown-item" href="{{ route('schedules.create') }}">➕ Add Schedule</a></li>
+                <li><a class="dropdown-item" href="{{ route('schedules.index') }}">📁 Directory</a></li>
+            </ul>
+        </div>
+
+        <!-- Payments -->
+        <div class="dropdown px-3 mt-2">
+            <button class="btn btn-dark w-100 dropdown-toggle text-start" type="button" data-bs-toggle="dropdown">
+                💰 Payments
+            </button>
+            <ul class="dropdown-menu w-100">
+                <li><a class="dropdown-item" href="{{ route('payments.create') }}">➕ Add Payment</a></li>
+                <li><a class="dropdown-item" href="{{ route('payments.index') }}">📁 Directory</a></li>
+            </ul>
+        </div>
+
+        <!-- Expenses -->
+        <div class="dropdown px-3 mt-2 mb-5">
+            <button class="btn btn-dark w-100 dropdown-toggle text-start" type="button" data-bs-toggle="dropdown">
+                💸 Expenses
+            </button>
+            <ul class="dropdown-menu w-100">
+                <li><a class="dropdown-item" href="{{ route('expenses.create') }}">➕ Add Expense</a></li>
+                <li><a class="dropdown-item" href="{{ route('expenses.index') }}">📁 Directory</a></li>
+            </ul>
+        </div>
     </div>
 
-     
-    <!-- Teacher Dropdown -->
-    <div class="dropdown px-3 mt-2">
-        <button class="btn btn-dark w-100 dropdown-toggle text-start" type="button"
-            id="teacherDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-            👩‍🏫 Teachers
-        </button>
-        <ul class="dropdown-menu" aria-labelledby="teacherDropdown">
-            <li>
-                <a class="dropdown-item {{ request()->is('teachers/create') ? 'active' : '' }}"
-                    href="{{ route('teachers.create') }}">
-                    ➕ Add Teacher
-                </a>
-            </li>
-            <li>
-                <a class="dropdown-item {{ request()->is('teachers') ? 'active' : '' }}"
-                    href="{{ route('teachers.index') }}">
-                    📁 Teacher Directory
-                </a>
-            </li>
-        </ul>
-    </div>
+    <!-- Navbar -->
+    <nav class="navbar navbar-custom navbar-expand-lg">
+        <div class="container-fluid px-4">
 
-    <!-- Students Dropdown -->
-    <div class="dropdown px-3 mt-2">
-        <button class="btn btn-dark w-100 dropdown-toggle text-start" type="button"
-            id="studentDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-            🎓 Students
-        </button>
-        <ul class="dropdown-menu" aria-labelledby="studentDropdown">
-            <li>
-                <a class="dropdown-item {{ request()->is('students/create') ? 'active' : '' }}"
-               href="{{ route('students.create') }}">
-                ➕ Add Student
-                </a>
-            </li>
-            <li>
-            <a class="dropdown-item {{ request()->is('students') ? 'active' : '' }}"
-               href="{{ route('students.index') }}">
-                📁 Student Directory
-            </a>
-            </li>
-        </ul>
-    </div>
+            <a class="navbar-brand ms-2" href="{{ route('dashboard') }}">Mascot Admin Panel</a>
 
+            <div class="d-flex align-items-center ms-auto">
+                <span class="me-3 text-muted">👤 {{ Auth::user()->name ?? 'Admin' }}</span>
+                <form method="POST" action="{{ route('logout') }}">
+                    @csrf
+                    <button type="submit" class="btn btn-outline-danger btn-sm">Logout</button>
+                </form>
+            </div>
+        </div>
+    </nav>
 
-    <!-- Batch Dropdown -->
-    <div class="dropdown px-3 mt-2">
-        <button class="btn btn-dark w-100 dropdown-toggle text-start" type="button"
-            id="batchDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-        📦 Batch
-        </button>
-        <ul class="dropdown-menu" aria-labelledby="batchDropdown">
-        <li>
-            <a class="dropdown-item {{ request()->is('batches.create') ? 'active' : '' }}"
-               href="{{ route('batches.create') }}">
-                ➕ Add Batch
-            </a>
-        </li>
-        <li>
-            <a class="dropdown-item {{ request()->is('batches') ? 'active' : '' }}"
-               href="{{ route('batches.index') }}">
-                📁 Batch Directory
-            </a>
-        </li>
-        </ul>
-    </div>
-
-
-    <!-- Classrooms Dropdown -->
-    <div class="dropdown px-3 mt-2">
-        <button class="btn btn-dark w-100 dropdown-toggle text-start" type="button"
-            id="classDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-        📘 Classrooms
-        </button>
-        <ul class="dropdown-menu" aria-labelledby="classDropdown">
-            <li>
-            <a class="dropdown-item {{ request()->is('classrooms/create') ? 'active' : '' }}"
-               href="{{ route('classrooms.create') }}">
-                ➕ Add Classroom
-            </a>
-            </li>
-            <li>
-            <a class="dropdown-item {{ request()->is('classrooms') ? 'active' : '' }}"
-               href="{{ route('classrooms.index') }}">
-                📁 Classroom Directory
-            </a>
-            </li>
-        </ul>
-    </div>
-
-
-    <!-- Class Sessions Dropdown -->
-    <div class="dropdown px-3 mt-2">
-        <button class="btn btn-dark w-100 dropdown-toggle text-start" type="button"
-            id="classSessionDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-        🕒 Class Sessions
-        </button>
-        <ul class="dropdown-menu" aria-labelledby="classSessionDropdown">
-        <li>
-            <a class="dropdown-item {{ request()->is('class-sessions/create') ? 'active' : '' }}"
-               href="{{ route('class-sessions.create') }}">
-                ➕ Add Class Session
-            </a>
-        </li>
-        <li>
-            <a class="dropdown-item {{ request()->is('class-sessions') ? 'active' : '' }}"
-               href="{{ route('class-sessions.index') }}">
-                📁 Session Directory
-            </a>
-        </li>
-        </ul>
-    </div>
-
-
-    <!-- Schedules Dropdown -->
-    <div class="dropdown px-3 mt-2">
-        <button class="btn btn-dark w-100 dropdown-toggle text-start" type="button"
-            id="scheduleDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-        🗓️ Schedules
-        </button>
-        <ul class="dropdown-menu" aria-labelledby="scheduleDropdown">
-        <li>
-            <a class="dropdown-item {{ request()->is('schedules/create') ? 'active' : '' }}"
-               href="{{ route('schedules.create') }}">
-                ➕ Add Schedule
-            </a>
-        </li>
-        <li>
-            <a class="dropdown-item {{ request()->is('schedules') ? 'active' : '' }}"
-               href="{{ route('schedules.index') }}">
-                📁 Schedule Directory
-            </a>
-        </li>
-        </ul>
-    </div>
-
-
-    <!-- Payments Dropdown -->
-    <div class="dropdown px-3 mt-2">
-        <button class="btn btn-dark w-100 dropdown-toggle text-start" type="button"
-            id="paymentDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-        💰 Payments
-        </button>
-        <ul class="dropdown-menu" aria-labelledby="paymentDropdown">
-        <li>
-            <a class="dropdown-item {{ request()->is('payments/create') ? 'active' : '' }}"
-               href="{{ route('payments.create') }}">
-                ➕ Add Payment
-            </a>
-        </li>
-        <li>
-            <a class="dropdown-item {{ request()->is('payments') ? 'active' : '' }}"
-               href="{{ route('payments.index') }}">
-                📁 Payment Directory
-            </a>
-        </li>
-        </ul>
-    </div>
-
-
-    <!-- Expenses Dropdown -->
-    <div class="dropdown px-3 mt-2">
-        <button class="btn btn-dark w-100 dropdown-toggle text-start" type="button"
-            id="expenseDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-        💸 Expenses
-        </button>
-        <ul class="dropdown-menu" aria-labelledby="expenseDropdown">
-        <li>
-            <a class="dropdown-item {{ request()->is('expenses/create') ? 'active' : '' }}"
-               href="{{ route('expenses.create') }}">
-                ➕ Add Expense
-            </a>
-        </li>
-        <li>
-            <a class="dropdown-item {{ request()->is('expenses') ? 'active' : '' }}"
-               href="{{ route('expenses.index') }}">
-                📁 Expense Directory
-            </a>
-        </li>
-        </ul>
-    </div>
-
-
-    
-    <form method="POST" action="{{ route('logout') }}" class="mt-5 px-3">
-        @csrf
-        <button type="submit" class="btn btn-danger w-100">Logout</button>
-    </form>
-    </div>
-
-    
-    
     <!-- Main Content -->
-    <div class="main">
+    <main class="main">
         {{ $slot }}
-    </div>
+    </main>
 
 </body>
 </html>
