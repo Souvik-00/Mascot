@@ -91,4 +91,29 @@ class StudentController extends Controller
         $student->delete();
         return redirect()->route('students.index')->with('success', 'Student deleted successfully!');
     }
+
+
+    public function search(Request $request)
+    {
+    $query = $request->input('query');
+
+    $students = \App\Models\Student::with('organisation')
+        ->when($query, function ($q) use ($query) {
+            $q->where('first_name', 'like', "%{$query}%")
+              ->orWhere('last_name', 'like', "%{$query}%")
+              ->orWhere('email', 'like', "%{$query}%")
+              ->orWhere('student_code', 'like', "%{$query}%");
+        })
+        ->orderBy('first_name')
+        ->paginate(10);
+
+    return view('students.search', compact('students', 'query'));
+    }
+
+
+    public function show($id)
+    {
+    $student = Student::with('organisation')->findOrFail($id);
+    return view('students.show', compact('student'));
+    }
 }

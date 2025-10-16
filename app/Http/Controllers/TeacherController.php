@@ -93,4 +93,22 @@ class TeacherController extends Controller
         $teacher->delete();
         return redirect()->route('teachers.index')->with('success', 'Teacher deleted successfully!');
     }
+
+
+    public function search(Request $request)
+    {
+    $query = $request->input('query');
+
+    $teachers = \App\Models\Teacher::with('organisation')
+        ->when($query, function ($q) use ($query) {
+            $q->where('first_name', 'like', "%{$query}%")
+              ->orWhere('last_name', 'like', "%{$query}%")
+              ->orWhere('email', 'like', "%{$query}%")
+              ->orWhere('teacher_code', 'like', "%{$query}%");
+        })
+        ->orderBy('first_name')
+        ->paginate(10);
+
+    return view('teachers.search', compact('teachers', 'query'));
+    }
 }

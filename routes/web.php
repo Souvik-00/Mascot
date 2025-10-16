@@ -2,7 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\BatchController;
+use App\Http\Controllers\CourseController;
 use App\Http\Controllers\ExpenseController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\SessionController;
@@ -10,36 +12,50 @@ use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\ClassroomController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ClassSessionController;
 use App\Http\Controllers\OrganisationController;
 
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [AuthController::class, 'login'])->name('login.post');
 
+
 Route::middleware('auth')->group(function () {
-    Route::get('/dashboard', [AuthController::class, 'dashboard'])->name('dashboard');
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
+    Route::get('/users/create', [UserController::class, 'create'])->name('users.create');
+    Route::post('/users', [UserController::class, 'store'])->name('users.store');
+    Route::get('/profile', [UserController::class, 'profile'])->name('users.profile');
+
     Route::resource('organisation', OrganisationController::class);
+    
+    Route::get('/teachers/search', [TeacherController::class, 'search'])->name('teachers.search');
     Route::resource('teachers', TeacherController::class);
+    
+    Route::get('/students/search', [StudentController::class, 'search'])->name('students.search');
     Route::resource('students', StudentController::class);
-    Route::resource('batches', BatchController::class);
-    Route::resource('classrooms', ClassroomController::class);
-    Route::resource('sessions', SessionController::class);
-    Route::resource('class-sessions', ClassSessionController::class);
-    Route::resource('schedules', ScheduleController::class);
-    Route::resource('payments', PaymentController::class);
-    Route::resource('expenses', ExpenseController::class);
+    
 
-
-
-
-
-
-
-
+    Route::get('/courses/search', [CourseController::class, 'search'])->name('courses.search');
+    Route::resource('courses', CourseController::class);
 
     
+    Route::get('/batches/search', [BatchController::class, 'search'])->name('batches.search');
+    Route::resource('batches', BatchController::class);
+    
+    Route::resource('classrooms', ClassroomController::class);
+    
+    Route::resource('sessions', SessionController::class);
+    
+    Route::resource('class-sessions', ClassSessionController::class);
+    
+    Route::resource('schedules', ScheduleController::class);
+    
+    Route::resource('payments', PaymentController::class);
+    
+    Route::resource('expenses', ExpenseController::class);
+
 });
 
 Route::get('/', function () {

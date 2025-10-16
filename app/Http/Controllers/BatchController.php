@@ -65,4 +65,20 @@ class BatchController extends Controller
         $batch->delete();
         return redirect()->route('batches.index')->with('success', 'Batch deleted successfully!');
     }
+
+
+     public function search(Request $request)
+    {
+        $query = $request->input('query');
+
+        $batches = Batch::with('organisation')
+            ->when($query, function ($q) use ($query) {
+                $q->where('title', 'like', "%{$query}%")
+                  ->orWhere('batch_code', 'like', "%{$query}%");
+            })
+            ->orderBy('start_date', 'desc')
+            ->paginate(10);
+
+        return view('batches.search', compact('batches', 'query'));
+    }
 }
