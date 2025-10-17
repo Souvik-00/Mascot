@@ -14,8 +14,16 @@
                 <tr><th>Organisation:</th><td>{{ $student->organisation?->name ?? '—' }}</td></tr>
                 <tr><th>Status:</th>
                     <td>
-                        <span class="badge bg-{{ $student->status == 'active' ? 'success' : ($student->status == 'inactive' ? 'secondary' : 'warning') }}">
-                            {{ ucfirst($student->status) }}
+                        <span class="badge 
+                                @switch($student->status)
+                                    @case('active') bg-success @break
+                                    @case('inactive') bg-secondary @break
+                                    @case('lead') bg-warning text-dark @break
+                                    @case('alumni') bg-info text-dark @break
+                                    @case('withdrawn') bg-danger @break
+                                    @default bg-light text-dark
+                                @endswitch">
+                                {{ ucfirst($student->status) }}
                         </span>
                     </td>
                 </tr>

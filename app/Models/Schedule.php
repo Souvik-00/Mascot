@@ -9,10 +9,10 @@ class Schedule extends Model
     protected $guarded = [];
 
 
-    public function organisation()
-    {
-        return $this->belongsTo(Organisation::class);
-    }
+    // public function organisation()
+    // {
+    //     return $this->belongsTo(Organisation::class);
+    // }
 
     public function batch()
     {

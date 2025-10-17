@@ -3,51 +3,69 @@
 namespace App\Http\Controllers;
 
 use App\Models\Batch;
-use App\Models\Organisation;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
+use Carbon\Carbon;
 
 class BatchController extends Controller
 {
     public function index()
     {
-        $batches = Batch::with('organisation')->get();
+        $batches = Batch::latest()->paginate(10);
         return view('batches.index', compact('batches'));
+    }
+
+    public function search(Request $request)
+    {
+        $query = Batch::query();
+
+        if ($search = $request->input('search')) {
+            $query->where('title', 'like', "%{$search}%")
+                  ->orWhere('batch_code', 'like', "%{$search}%");
+        }
+
+        if ($status = $request->input('status')) {
+            $query->where('status', $status);
+        }
+
+        $batches = $query->orderBy('id', 'desc')->paginate(10)->appends($request->query());
+        return view('batches.search', compact('batches'));
     }
 
     public function create()
     {
-        $organisations = Organisation::all();
-        return view('batches.create', compact('organisations'));
+        return view('batches.create');
     }
 
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'organisation_id' => 'required|exists:organisations,id',
-            'batch_code' => 'required|string|max:50|unique:batches,batch_code',
+            'batch_code' => ['required', 'regex:/^BT-\d{3}$/', 'unique:batches,batch_code'],
             'title' => 'required|string|max:255',
             'start_date' => 'required|date',
             'end_date' => 'nullable|date|after_or_equal:start_date',
             'capacity' => 'nullable|integer|min:1',
             'status' => 'required|in:planned,running,completed,cancelled',
+        ], [
+            'batch_code.regex' => 'Batch code must follow format BT-001.',
         ]);
 
         Batch::create($validated);
-
         return redirect()->route('batches.index')->with('success', 'Batch created successfully!');
     }
 
     public function edit(Batch $batch)
     {
-        $organisations = Organisation::all();
-        return view('batches.edit', compact('batch', 'organisations'));
+        return view('batches.edit', compact('batch'));
     }
 
     public function update(Request $request, Batch $batch)
     {
         $validated = $request->validate([
-            'organisation_id' => 'required|exists:organisations,id',
-            'batch_code' => 'required|string|max:50|unique:batches,batch_code,' . $batch->id,
+            'batch_code' => [
+                'required', 'regex:/^BT-\d{3}$/',
+                Rule::unique('batches', 'batch_code')->ignore($batch->id),
+            ],
             'title' => 'required|string|max:255',
             'start_date' => 'required|date',
             'end_date' => 'nullable|date|after_or_equal:start_date',
@@ -56,7 +74,6 @@ class BatchController extends Controller
         ]);
 
         $batch->update($validated);
-
         return redirect()->route('batches.index')->with('success', 'Batch updated successfully!');
     }
 
@@ -64,21 +81,5 @@ class BatchController extends Controller
     {
         $batch->delete();
         return redirect()->route('batches.index')->with('success', 'Batch deleted successfully!');
-    }
-
-
-     public function search(Request $request)
-    {
-        $query = $request->input('query');
-
-        $batches = Batch::with('organisation')
-            ->when($query, function ($q) use ($query) {
-                $q->where('title', 'like', "%{$query}%")
-                  ->orWhere('batch_code', 'like', "%{$query}%");
-            })
-            ->orderBy('start_date', 'desc')
-            ->paginate(10);
-
-        return view('batches.search', compact('batches', 'query'));
     }
 }

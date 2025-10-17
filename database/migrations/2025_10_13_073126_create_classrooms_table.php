@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('classrooms', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('organisation_id')->constrained()->onDelete('cascade');
+            // $table->foreignId('organisation_id')->constrained()->onDelete('cascade');
             $table->foreignId('batch_id')->constrained()->onDelete('cascade');
             
             $table->string('class_code')->unique();

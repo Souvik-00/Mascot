@@ -1,145 +1,109 @@
 <x-layout>
-    <h3>Edit Teacher</h3>
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h4 class="fw-bold mb-0">✏️ Edit Teacher — {{ $teacher->teacher_code }}</h4>
+        <a href="{{ route('teachers.index') }}" class="btn btn-secondary">← Back</a>
+    </div>
 
-    <form method="POST" action="{{ route('teachers.update', $teacher->id) }}">
-        @csrf
-        @method('PUT')
+    <div class="card border-0 shadow-sm">
+        <div class="card-body">
+            <form action="{{ route('teachers.update', $teacher->id) }}" method="POST">
+                @csrf
+                @method('PUT')
 
-        <div class="mb-3">
-            <label>Organisation</label>
-            <select name="organisation_id" class="form-control" required>
-                @foreach($organisations as $org)
-                    <option value="{{ $org->id }}" {{ $teacher->organisation_id == $org->id ? 'selected' : '' }}>
-                        {{ $org->name }}
-                    </option>
-                @endforeach
-            </select>
+                {{-- <div class="mb-3">
+                    <label class="form-label fw-semibold">Organisation</label>
+                    <input type="hidden" name="organisation_id" value="{{ $organisation->id }}">
+                    <input type="text" class="form-control bg-light" value="{{ $organisation->name }}" readonly>
+                </div> --}}
+
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Teacher Code *</label>
+                    <input type="text" name="teacher_code" class="form-control" value="{{ old('teacher_code', $teacher->teacher_code) }}">
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-semibold">First Name *</label>
+                        <input type="text" name="first_name" class="form-control" value="{{ old('first_name', $teacher->first_name) }}">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-semibold">Last Name</label>
+                        <input type="text" name="last_name" class="form-control" value="{{ old('last_name', $teacher->last_name) }}">
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-semibold">Email</label>
+                        <input type="email" name="email" class="form-control" value="{{ old('email', $teacher->email) }}">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-semibold">Phone</label>
+                        <input type="text" name="phone" class="form-control" value="{{ old('phone', $teacher->phone) }}">
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label fw-semibold">DOB</label>
+                        <input type="date" name="dob" class="form-control" value="{{ old('dob', $teacher->dob) }}">
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label fw-semibold">Gender</label>
+                        <select name="gender" class="form-select">
+                            <option value="">Select</option>
+                            @foreach(['male','female','other'] as $g)
+                                <option value="{{ $g }}" {{ old('gender', $teacher->gender) == $g ? 'selected' : '' }}>{{ ucfirst($g) }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label fw-semibold">Marital Status</label>
+                        <select name="marital_status" class="form-select">
+                            <option value="">Select</option>
+                            @foreach(['single','married','divorced','widowed','separated'] as $m)
+                                <option value="{{ $m }}" {{ old('marital_status', $teacher->marital_status) == $m ? 'selected' : '' }}>{{ ucfirst($m) }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-semibold">Highest Qualification</label>
+                        <select name="highest_qualification" class="form-select">
+                            @foreach(['matriculation','higher_secondary','graduation','masters','phd'] as $q)
+                                <option value="{{ $q }}" {{ old('highest_qualification', $teacher->highest_qualification) == $q ? 'selected' : '' }}>
+                                    {{ ucwords(str_replace('_',' ',$q)) }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-semibold">Specialization</label>
+                        <input type="text" name="specialization" class="form-control" value="{{ old('specialization', $teacher->specialization) }}">
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-semibold">Joined On</label>
+                        <input type="date" name="joined_on" class="form-control" value="{{ old('joined_on', $teacher->joined_on) }}">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-semibold">Status *</label>
+                        <select name="status" class="form-select">
+                            @foreach(['active','inactive'] as $s)
+                                <option value="{{ $s }}" {{ old('status', $teacher->status) == $s ? 'selected' : '' }}>{{ ucfirst($s) }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+
+                <div class="text-end">
+                    <button type="submit" class="btn btn-primary px-4">💾 Update Teacher</button>
+                </div>
+            </form>
         </div>
-
-        <div class="row">
-            <div class="col-md-4 mb-3">
-                <label>Teacher Code</label>
-                <input type="text" name="teacher_code" value="{{ $teacher->teacher_code }}" class="form-control" required>
-            </div>
-            <div class="col-md-4 mb-3">
-                <label>First Name</label>
-                <input type="text" name="first_name" value="{{ $teacher->first_name }}" class="form-control" required>
-            </div>
-            <div class="col-md-4 mb-3">
-                <label>Last Name</label>
-                <input type="text" name="last_name" value="{{ $teacher->last_name }}" class="form-control">
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-md-4 mb-3">
-                <label>Email</label>
-                <input type="email" name="email" value="{{ $teacher->email }}" class="form-control">
-            </div>
-            <div class="col-md-4 mb-3">
-                <label>Phone</label>
-                <input type="text" name="phone" value="{{ $teacher->phone }}" class="form-control">
-            </div>
-            <div class="col-md-4 mb-3">
-                <label>Date of Birth</label>
-                <input type="date" name="dob" value="{{ $teacher->dob }}" class="form-control">
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-md-4 mb-3">
-                <label>Gender</label>
-                <select name="gender" class="form-control">
-                    <option value="">Select</option>
-                    @foreach(['male','female','other'] as $g)
-                        <option value="{{ $g }}" {{ $teacher->gender == $g ? 'selected' : '' }}>{{ ucfirst($g) }}</option>
-                    @endforeach
-                </select>
-            </div>
-            <div class="col-md-4 mb-3">
-                <label>Marital Status</label>
-                <select name="marital_status" class="form-control">
-                    <option value="">Select</option>
-                    @foreach(['single','married','divorced','widowed','separated'] as $ms)
-                        <option value="{{ $ms }}" {{ $teacher->marital_status == $ms ? 'selected' : '' }}>{{ ucfirst($ms) }}</option>
-                    @endforeach
-                </select>
-            </div>
-            <div class="col-md-4 mb-3">
-                <label>Spouse Name</label>
-                <input type="text" name="spouse_name" value="{{ $teacher->spouse_name }}" class="form-control">
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-md-6 mb-3">
-                <label>Father’s Name</label>
-                <input type="text" name="father_name" value="{{ $teacher->father_name }}" class="form-control">
-            </div>
-            <div class="col-md-6 mb-3">
-                <label>Mother’s Name</label>
-                <input type="text" name="mother_name" value="{{ $teacher->mother_name }}" class="form-control">
-            </div>
-        </div>
-
-        <div class="mb-3">
-            <label>Current Address</label>
-            <textarea name="current_address" class="form-control" rows="2">{{ $teacher->current_address }}</textarea>
-        </div>
-
-        <div class="mb-3">
-            <label>Permanent Address</label>
-            <textarea name="permanent_address" class="form-control" rows="2">{{ $teacher->permanent_address }}</textarea>
-        </div>
-
-        <div class="row">
-            <div class="col-md-4 mb-3">
-                <label>Voter ID</label>
-                <input type="text" name="voter_id_card_no" value="{{ $teacher->voter_id_card_no }}" class="form-control">
-            </div>
-            <div class="col-md-4 mb-3">
-                <label>PAN</label>
-                <input type="text" name="pan_card_no" value="{{ $teacher->pan_card_no }}" class="form-control">
-            </div>
-            <div class="col-md-4 mb-3">
-                <label>Aadhaar</label>
-                <input type="text" name="aadhar_no" value="{{ $teacher->aadhar_no }}" class="form-control">
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-md-6 mb-3">
-                <label>Highest Qualification</label>
-                <select name="highest_qualification" class="form-control">
-                    <option value="">Select</option>
-                    @foreach(['matriculation','higher_secondary','graduation','masters','phd'] as $q)
-                        <option value="{{ $q }}" {{ $teacher->highest_qualification == $q ? 'selected' : '' }}>
-                            {{ ucfirst(str_replace('_',' ', $q)) }}
-                        </option>
-                    @endforeach
-                </select>
-            </div>
-            <div class="col-md-6 mb-3">
-                <label>Specialization</label>
-                <input type="text" name="specialization" value="{{ $teacher->specialization }}" class="form-control">
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-md-6 mb-3">
-                <label>Joining Date</label>
-                <input type="date" name="joined_on" value="{{ $teacher->joined_on }}" class="form-control">
-            </div>
-            <div class="col-md-6 mb-3">
-                <label>Status</label>
-                <select name="status" class="form-control" required>
-                    <option value="active" {{ $teacher->status == 'active' ? 'selected' : '' }}>Active</option>
-                    <option value="inactive" {{ $teacher->status == 'inactive' ? 'selected' : '' }}>Inactive</option>
-                </select>
-            </div>
-        </div>
-
-        <button class="btn btn-primary">Update</button>
-        <a href="{{ route('teachers.index') }}" class="btn btn-secondary">Cancel</a>
-    </form>
+    </div>
 </x-layout>

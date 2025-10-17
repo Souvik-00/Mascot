@@ -1,58 +1,95 @@
-<x-layout title="Search Students">
-    <h3>🔍 Search Students</h3>
+<x-layout>
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h4 class="fw-bold mb-0">🔍 Search Students</h4>
+        <a href="{{ route('students.index') }}" class="btn btn-secondary">← Back</a>
+    </div>
 
-    <form method="GET" action="{{ route('students.search') }}" class="mb-4">
-        <div class="input-group">
-            <input type="text" name="query" class="form-control"
-                   placeholder="Search by name, email, or code..."
-                   value="{{ $query }}">
-            <button class="btn btn-primary">Search</button>
+    <!-- Search Filter -->
+    <form method="GET" action="{{ route('students.search') }}" class="card shadow-sm border-0 mb-4">
+        <div class="card-body row g-3 align-items-end">
+            <div class="col-md-6">
+                <label class="form-label fw-semibold">Search</label>
+                <input type="text" name="search" class="form-control"
+                       placeholder="Search by name or student code..." value="{{ request('search') }}">
+            </div>
+
+            <div class="col-md-4">
+                <label class="form-label fw-semibold">Status</label>
+                <select name="status" class="form-select">
+                    <option value="">All</option>
+                    @foreach(['active','inactive','lead','alumni','withdrawn'] as $status)
+                        <option value="{{ $status }}" {{ request('status') == $status ? 'selected' : '' }}>
+                            {{ ucfirst($status) }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+
+            <div class="col-md-2 text-end">
+                <button type="submit" class="btn btn-primary w-100"><i class="bi bi-search"></i> Search</button>
+            </div>
         </div>
     </form>
 
-    @if ($students->count())
-        <div class="table-responsive">
-            <table class="table table-bordered table-striped table-hover align-middle">
-                <thead class="table-dark">
+    <!-- Search Results -->
+    <div class="card border-0 shadow-sm">
+        <div class="card-body table-responsive">
+            <table class="table table-hover align-middle">
+                <thead class="table-light">
                     <tr>
                         <th>Code</th>
-                        <th>Full Name</th>
+                        <th>Name</th>
                         <th>Email</th>
                         <th>Phone</th>
-                        <th>Organisation</th>
                         <th>Status</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($students as $student)
+                    @forelse($students as $student)
                         <tr>
                             <td>{{ $student->student_code }}</td>
                             <td>{{ $student->first_name }} {{ $student->last_name }}</td>
                             <td>{{ $student->email ?? '—' }}</td>
                             <td>{{ $student->phone ?? '—' }}</td>
-                            <td>{{ $student->organisation?->name ?? '—' }}</td>
                             <td>
-                                <span class="badge bg-{{ $student->status == 'active' ? 'success' : ($student->status == 'inactive' ? 'secondary' : 'warning') }}">
+                                @php
+                                    $colors = [
+                                        'active' => 'success',
+                                        'inactive' => 'secondary',
+                                        'lead' => 'warning',
+                                        'alumni' => 'info',
+                                        'withdrawn' => 'danger'
+                                    ];
+                                @endphp
+                                <span class="badge bg-{{ $colors[$student->status] ?? 'secondary' }}">
                                     {{ ucfirst($student->status) }}
                                 </span>
                             </td>
                             <td>
-                                <a href="{{ route('students.edit', $student->id) }}" class="btn btn-sm btn-warning">✏️ Edit</a>
-                                <form method="POST" action="{{ route('students.destroy', $student->id) }}" class="d-inline">
+                                <a href="{{ route('students.edit', $student->id) }}" class="btn btn-sm btn-outline-primary me-1">
+                                    <i class="bi bi-pencil"></i>
+                                </a>
+                                <form action="{{ route('students.destroy', $student->id) }}" method="POST" class="d-inline">
                                     @csrf
                                     @method('DELETE')
-                                    <button class="btn btn-sm btn-danger" onclick="return confirm('Delete this student?')">🗑️</button>
+                                    <button class="btn btn-sm btn-outline-danger" onclick="return confirm('Delete this student?')">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
                                 </form>
                             </td>
                         </tr>
-                    @endforeach
+                    @empty
+                        <tr>
+                            <td colspan="6" class="text-center text-muted py-4">No matching students found.</td>
+                        </tr>
+                    @endforelse
                 </tbody>
             </table>
-        </div>
 
-        {{ $students->links() }}
-    @else
-        <p class="text-muted">No students found. Try searching with different keywords.</p>
-    @endif
+            <div class="mt-3">
+                {{ $students->links() }}
+            </div>
+        </div>
+    </div>
 </x-layout>

@@ -1,66 +1,67 @@
-<x-layout title="Search Batches">
-    <h3 class="mb-4">🔍 Search Batches</h3>
+<x-layout>
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h4 class="fw-bold mb-0">🔍 Search Batches</h4>
+        <a href="{{ route('batches.index') }}" class="btn btn-secondary">← Back</a>
+    </div>
 
-    <form method="GET" action="{{ route('batches.search') }}" class="mb-4">
-        <div class="input-group">
-            <input type="text" name="query" class="form-control"
-                   placeholder="Search by batch code, title, or organisation..."
-                   value="{{ $query ?? '' }}">
-            <button class="btn btn-primary" type="submit">Search</button>
+    <form method="GET" action="{{ route('batches.search') }}" class="card p-3 mb-4 shadow-sm">
+        <div class="row">
+            <div class="col-md-5 mb-2">
+                <input type="text" name="search" class="form-control"
+                       placeholder="Search by code or title" value="{{ request('search') }}">
+            </div>
+            <div class="col-md-4 mb-2">
+                <select name="status" class="form-select">
+                    <option value="">All Status</option>
+                    @foreach(['planned','running','completed','cancelled'] as $status)
+                        <option value="{{ $status }}" {{ request('status') === $status ? 'selected' : '' }}>
+                            {{ ucfirst($status) }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="col-md-3 mb-2">
+                <button class="btn btn-primary w-100">Search</button>
+            </div>
         </div>
     </form>
 
-    @if ($batches->count())
-        <div class="table-responsive">
-            <table class="table table-bordered table-striped table-hover align-middle">
-                <thead class="table-dark">
+    <div class="card shadow-sm border-0">
+        <div class="card-body">
+            <table class="table table-hover align-middle">
+                <thead class="table-light">
                     <tr>
+                        <th>#</th>
                         <th>Batch Code</th>
                         <th>Title</th>
-                        <th>Organisation</th>
-                        <th>Start Date</th>
-                        <th>End Date</th>
-                        <th>Capacity</th>
+                        <th>Start</th>
+                        <th>End</th>
                         <th>Status</th>
-                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($batches as $batch)
+                    @forelse ($batches as $index => $batch)
                         <tr>
+                            <td>{{ $index + $batches->firstItem() }}</td>
                             <td>{{ $batch->batch_code }}</td>
                             <td>{{ $batch->title }}</td>
-                            <td>{{ $batch->organisation?->name ?? '—' }}</td>
-                            <td>{{ $batch->start_date }}</td>
-                            <td>{{ $batch->end_date ?? '—' }}</td>
-                            <td>{{ $batch->capacity ?? '—' }}</td>
+                            <td>{{ \Carbon\Carbon::parse($batch->start_date)->format('d M Y') }}</td>
+                            <td>{{ $batch->end_date ? \Carbon\Carbon::parse($batch->end_date)->format('d M Y') : '—' }}</td>
                             <td>
-                                <span class="badge bg-{{ 
-                                    $batch->status == 'running' ? 'success' : 
-                                    ($batch->status == 'planned' ? 'info' : 
-                                    ($batch->status == 'completed' ? 'secondary' : 'danger')) 
-                                }}">
+                                <span class="badge bg-{{ $colors[$batch->status] ?? 'secondary' }}">
                                     {{ ucfirst($batch->status) }}
                                 </span>
                             </td>
-                            <td>
-                                <a href="{{ route('batches.edit', $batch->id) }}" class="btn btn-warning btn-sm">✏️ Edit</a>
-                                <form method="POST" action="{{ route('batches.destroy', $batch->id) }}" class="d-inline">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button class="btn btn-danger btn-sm" onclick="return confirm('Delete this batch?')">🗑️ Delete</button>
-                                </form>
-                            </td>
                         </tr>
-                    @endforeach
+                    @empty
+                        <tr><td colspan="6" class="text-center text-muted py-3">No batches found.</td></tr>
+                    @endforelse
                 </tbody>
             </table>
-        </div>
 
-        <div class="mt-3">
-            {{ $batches->links() }}
+            <div class="d-flex justify-content-center mt-3">
+                {{ $batches->links() }}
+            </div>
         </div>
-    @else
-        <p class="text-muted">No batches found. Try a different keyword.</p>
-    @endif
+    </div>
 </x-layout>

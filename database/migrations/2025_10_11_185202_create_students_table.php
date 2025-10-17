@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('students', function (Blueprint $table) {
         $table->id();
-        $table->foreignId('organisation_id')->constrained()->onDelete('cascade');
+        // $table->foreignId('organisation_id')->constrained()->onDelete('cascade');
         
         $table->string('student_code')->unique();
         $table->string('first_name');
@@ -33,7 +33,7 @@ return new class extends Migration
         $table->string('aadhar_no')->nullable();
         $table->enum('highest_qualification', ['matriculation', 'higher_secondary', 'graduation', 'masters', 'phd'])->nullable();
         $table->date('joined_on')->nullable();
-        $table->enum('status', ['active', 'inactive', 'alumni'])->default('active');
+        $table->enum('status', ['active', 'inactive', 'lead', 'alumni', 'withdrawn'])->default('active');
            
         $table->timestamps();
         });

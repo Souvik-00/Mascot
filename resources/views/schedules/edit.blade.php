@@ -5,7 +5,7 @@
         @csrf
         @method('PUT')
 
-        <!-- Organisation -->
+        {{-- <!-- Organisation -->
         <div class="mb-3">
             <label>Organisation</label>
             <select name="organisation_id" class="form-control" required>
@@ -15,7 +15,7 @@
                     </option>
                 @endforeach
             </select>
-        </div>
+        </div> --}}
 
         <!-- Batch -->
         <div class="mb-3">

@@ -3,80 +3,83 @@
 namespace App\Http\Controllers;
 
 use App\Models\Course;
-use App\Models\Organisation;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class CourseController extends Controller
 {
     public function index()
     {
-        $courses = Course::with('organisation')->paginate(10);
+        $courses = Course::latest()->paginate(10);
         return view('courses.index', compact('courses'));
+    }
+
+    public function search(Request $request)
+    {
+        $query = Course::query();
+
+        if ($search = $request->input('search')) {
+            $query->where('title', 'like', "%{$search}%")
+                  ->orWhere('class_code', 'like', "%{$search}%");
+        }
+
+        if ($status = $request->input('status')) {
+            $query->where('status', $status);
+        }
+
+        $courses = $query->orderBy('id', 'desc')->paginate(10)->appends($request->query());
+
+        return view('courses.search', compact('courses'));
     }
 
     public function create()
     {
-        $organisations = Organisation::all();
-        return view('courses.create', compact('organisations'));
+        return view('courses.create');
     }
 
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'organisation_id' => 'required|exists:organisations,id',
-            'class_code' => 'required|string|max:50|unique:courses,class_code',
+            'class_code' => ['required', 'regex:/^CR-\d{3}$/', 'unique:courses,class_code'],
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
-            'duration_hours' => 'nullable|integer|min:1',
+            'duration_hours' => 'nullable|integer|min:0',
             'max_students' => 'nullable|integer|min:1',
             'status' => 'required|in:active,inactive',
+        ], [
+            'class_code.regex' => 'Class code must follow format CR-001.',
         ]);
 
         Course::create($validated);
-        return redirect()->route('courses.index')->with('success', 'Course created successfully.');
+        return redirect()->route('courses.index')->with('success', 'Course added successfully!');
     }
 
     public function edit(Course $course)
     {
-        $organisations = Organisation::all();
-        return view('courses.edit', compact('course', 'organisations'));
+        return view('courses.edit', compact('course'));
     }
 
     public function update(Request $request, Course $course)
     {
         $validated = $request->validate([
-            'organisation_id' => 'required|exists:organisations,id',
-            'class_code' => 'required|string|max:50|unique:courses,class_code,' . $course->id,
+            'class_code' => [
+                'required', 'regex:/^CR-\d{3}$/',
+                Rule::unique('courses', 'class_code')->ignore($course->id)
+            ],
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
-            'duration_hours' => 'nullable|integer|min:1',
+            'duration_hours' => 'nullable|integer|min:0',
             'max_students' => 'nullable|integer|min:1',
             'status' => 'required|in:active,inactive',
         ]);
 
         $course->update($validated);
-        return redirect()->route('courses.index')->with('success', 'Course updated successfully.');
+        return redirect()->route('courses.index')->with('success', 'Course updated successfully!');
     }
 
     public function destroy(Course $course)
     {
         $course->delete();
-        return redirect()->route('courses.index')->with('success', 'Course deleted successfully.');
-    }
-
-    public function search(Request $request)
-    {
-        $query = $request->input('query');
-
-        $courses = Course::with('organisation')
-            ->when($query, function ($q) use ($query) {
-                $q->where('title', 'like', "%{$query}%")
-                  ->orWhere('class_code', 'like', "%{$query}%")
-                  ->orWhere('description', 'like', "%{$query}%");
-            })
-            ->orderBy('title')
-            ->paginate(10);
-
-        return view('courses.search', compact('courses', 'query'));
+        return redirect()->route('courses.index')->with('success', 'Course deleted successfully!');
     }
 }

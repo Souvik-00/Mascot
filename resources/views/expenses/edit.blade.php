@@ -4,7 +4,7 @@
     <form method="POST" action="{{ route('expenses.update', $expense->id) }}">
         @csrf @method('PUT')
 
-        <div class="mb-3">
+        {{-- <div class="mb-3">
             <label>Organisation</label>
             <select name="organisation_id" class="form-control" required>
                 @foreach($organisations as $org)
@@ -13,7 +13,7 @@
                     </option>
                 @endforeach
             </select>
-        </div>
+        </div> --}}
 
         <div class="mb-3">
             <label>Batch (optional)</label>

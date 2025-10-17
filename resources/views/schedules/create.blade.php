@@ -4,7 +4,7 @@
     <form method="POST" action="{{ route('schedules.store') }}">
         @csrf
 
-        <div class="mb-3">
+        {{-- <div class="mb-3">
             <label>Organisation</label>
             <select name="organisation_id" class="form-control" required>
                 <option value="">Select Organisation</option>
@@ -12,7 +12,7 @@
                     <option value="{{ $org->id }}">{{ $org->name }}</option>
                 @endforeach
             </select>
-        </div>
+        </div> --}}
 
         <div class="mb-3">
             <label>Batch</label>
