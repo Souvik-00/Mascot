@@ -13,6 +13,7 @@ use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\ClassroomController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\MetaResultController;
 use App\Http\Controllers\ClassSessionController;
 use App\Http\Controllers\OrganisationController;
 
@@ -24,17 +25,20 @@ Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-    Route::get('/users/create', [UserController::class, 'create'])->name('users.create');
-    Route::post('/users', [UserController::class, 'store'])->name('users.store');
+    
     Route::get('/profile', [UserController::class, 'profile'])->name('users.profile');
+    Route::get('/users/search', [UserController::class, 'search'])->name('users.search');
+    Route::resource('users', UserController::class);
 
     Route::resource('organisation', OrganisationController::class);
     
-    Route::get('/teachers/search', [TeacherController::class, 'search'])->name('teachers.search');
-    Route::resource('teachers', TeacherController::class);
-    
-    Route::get('/students/search', [StudentController::class, 'search'])->name('students.search');
-    Route::resource('students', StudentController::class);
+    // Students
+    Route::get('students', [StudentController::class, 'index'])->name('students.index');
+    Route::get('students/search', [StudentController::class, 'search'])->name('students.search');
+
+    // Teachers
+    Route::get('teachers', [TeacherController::class, 'index'])->name('teachers.index');
+    Route::get('teachers/search', [TeacherController::class, 'search'])->name('teachers.search');
     
 
     Route::get('/courses/search', [CourseController::class, 'search'])->name('courses.search');
@@ -55,6 +59,8 @@ Route::middleware('auth')->group(function () {
     Route::resource('payments', PaymentController::class);
     
     Route::resource('expenses', ExpenseController::class);
+
+    Route::resource('meta_results', MetaResultController::class);
 
 });
 

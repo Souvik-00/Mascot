@@ -1,84 +1,44 @@
-<x-layout>
+<x-layout title="Search Teachers">
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h4 class="fw-bold mb-0">🔍 Search Teachers</h4>
-        <a href="{{ route('teachers.index') }}" class="btn btn-secondary">← Back</a>
+        <h3>🔍 Search Results (Teachers)</h3>
+        <a href="{{ route('teachers.index') }}" class="btn btn-outline-secondary">⬅ Back</a>
     </div>
 
-    <form method="GET" action="{{ route('teachers.search') }}" class="card shadow-sm border-0 mb-4">
-        <div class="card-body row g-3 align-items-end">
-            <div class="col-md-6">
-                <label class="form-label fw-semibold">Search</label>
-                <input type="text" name="search" class="form-control"
-                       placeholder="Search by name or code..." value="{{ request('search') }}">
-            </div>
-
-            <div class="col-md-4">
-                <label class="form-label fw-semibold">Status</label>
-                <select name="status" class="form-select">
-                    <option value="">All</option>
-                    @foreach(['active','inactive'] as $status)
-                        <option value="{{ $status }}" {{ request('status') == $status ? 'selected' : '' }}>
-                            {{ ucfirst($status) }}
-                        </option>
-                    @endforeach
-                </select>
-            </div>
-
-            <div class="col-md-2 text-end">
-                <button type="submit" class="btn btn-primary w-100"><i class="bi bi-search"></i> Search</button>
-            </div>
+    <form method="GET" action="{{ route('teachers.search') }}" class="row mb-3">
+        <div class="col-md-4">
+            <input type="text" name="q" value="{{ request('q') }}" class="form-control" placeholder="Search again...">
+        </div>
+        <div class="col-md-2">
+            <button class="btn btn-secondary w-100">Search</button>
         </div>
     </form>
 
-    <div class="card border-0 shadow-sm">
-        <div class="card-body table-responsive">
-            <table class="table table-hover align-middle">
-                <thead class="table-light">
+    @if($teachers->isEmpty())
+        <div class="alert alert-warning">No teachers found for “{{ $query }}”.</div>
+    @else
+        <div class="table-responsive">
+            <table class="table table-striped align-middle">
+                <thead class="table-dark">
                     <tr>
-                        <th>Code</th>
+                        <th>#</th>
                         <th>Name</th>
                         <th>Email</th>
                         <th>Phone</th>
                         <th>Status</th>
-                        <th>Joined On</th>
-                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @forelse($teachers as $teacher)
+                    @foreach($teachers as $teacher)
                         <tr>
-                            <td>{{ $teacher->teacher_code }}</td>
+                            <td>{{ $teacher->id }}</td>
                             <td>{{ $teacher->first_name }} {{ $teacher->last_name }}</td>
-                            <td>{{ $teacher->email ?? '—' }}</td>
+                            <td>{{ $teacher->email }}</td>
                             <td>{{ $teacher->phone ?? '—' }}</td>
-                            <td>
-                                <span class="badge bg-{{ $teacher->status === 'active' ? 'success' : 'secondary' }}">
-                                    {{ ucfirst($teacher->status) }}
-                                </span>
-                            </td>
-                            <td>{{ $teacher->joined_on ? $teacher->joined_on->format('Y-m-d') : '—' }}</td>
-                            <td>
-                                <a href="{{ route('teachers.edit', $teacher->id) }}" class="btn btn-sm btn-outline-primary me-1">
-                                    <i class="bi bi-pencil"></i>
-                                </a>
-                                <form action="{{ route('teachers.destroy', $teacher->id) }}" method="POST" class="d-inline">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button class="btn btn-sm btn-outline-danger" onclick="return confirm('Delete this teacher?')">
-                                        <i class="bi bi-trash"></i>
-                                    </button>
-                                </form>
-                            </td>
+                            <td>{{ ucfirst($teacher->status) }}</td>
                         </tr>
-                    @empty
-                        <tr><td colspan="7" class="text-center text-muted py-4">No teachers found.</td></tr>
-                    @endforelse
+                    @endforeach
                 </tbody>
             </table>
-
-            <div class="mt-3">
-                {{ $teachers->links() }}
-            </div>
         </div>
-    </div>
+    @endif
 </x-layout>

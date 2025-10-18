@@ -160,7 +160,7 @@
         <div class="collapse {{ request()->is('students*') ? 'show' : '' }}" id="studentsMenu">
             <a href="{{ route('students.index') }}">📋 List</a>
             <a href="{{ route('students.search') }}">🔍 Search</a>
-            <a href="{{ route('students.create') }}">➕ New</a>
+            {{-- <a href="{{ route('students.create') }}">➕ New</a> --}}
         </div>
 
         <button class="btn" data-bs-toggle="collapse" data-bs-target="#teachersMenu">
@@ -169,7 +169,7 @@
         <div class="collapse {{ request()->is('teachers*') ? 'show' : '' }}" id="teachersMenu">
             <a href="{{ route('teachers.index') }}">📋 List</a>
             <a href="{{ route('teachers.search') }}">🔍 Search</a>
-            <a href="{{ route('teachers.create') }}">➕ New</a>
+            {{-- <a href="{{ route('teachers.create') }}">➕ New</a> --}}
         </div>
 
         <!-- Academics -->
@@ -223,7 +223,14 @@
         <!-- Administration -->
         <h6>Administration</h6>
         <a href="{{ route('organisation.index') }}">🏢 <span>Organization</span></a>
-        <a href="{{ route('users.create') }}">👥 <span>New User</span></a>
+        <button class="btn" data-bs-toggle="collapse" data-bs-target="#usersMenu">
+            💸 <span>Users</span>
+        </button>
+         <div class="collapse {{ request()->is('users*') ? 'show' : '' }}" id="usersMenu">
+            <a href="{{ route('users.create') }}">👥 <span>New </span></a>
+            <a href="{{ route('users.index') }}">👥 <span>List </span></a>
+            <a href="{{ route('users.search') }}">👥 <span>Search </span></a>
+        </div>
         <a href="#">🛡️ <span>Roles & Permissions</span></a>
 
         <button class="btn" data-bs-toggle="collapse" data-bs-target="#masterDataMenu">
@@ -238,6 +245,27 @@
             <a href="#">📜 Audit Log</a>
             <a href="#">💾 Backups</a>
         </div>
+
+        <!--Marketing -->
+        <h6>Online</h6>
+        <button class="btn" data-bs-toggle='collapse' data-bs-target='#metaMenu'>
+            <i class="bi bi-meta me-2"></i>
+            <span>Meta Ad</span>
+        </button>
+        <div class="collapse" id="metaMenu">
+            <a href="{{route('meta_results.create')}}"><i class="bi bi-plus-circle me-2 text-primary"></i>Add Results</a>
+            <a href="{{route('meta_results.index')}}"><i class="bi bi-eye me-2 text-success"></i>View Results</a>
+        </div>
+
+        <button class="btn" data-bs-toggle='collapse' data-bs-target='#crmMenu'>
+             <i class="bi bi-diagram-3 me-2"></i>
+            <span>CRM</span>
+        </button>
+        <div class="collapse" id="crmMenu">
+            <a href="#"><i class="bi bi-person-plus me-2 text-primary"></i>New Lead</a>
+            <a href="#"><i class="bi bi-bar-chart-line me-2 text-success"></i>Results</a>
+        </div>
+        
 
         <!-- Help -->
         <h6>Help</h6>

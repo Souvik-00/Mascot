@@ -5,9 +5,10 @@
         </div>
         <div class="card-body">
             <table class="table table-borderless">
-                <tr><th>Name:</th><td>{{ $user->name }}</td></tr>
+                <tr><th>First Name:</th><td>{{ $user->first_name }}</td></tr>
+                 <tr><th>Last Name:</th><td>{{ $user->last_name }}</td></tr>
                 <tr><th>Email:</th><td>{{ $user->email }}</td></tr>
-                <tr><th>Role:</th><td><span class="badge bg-info">{{ ucfirst($user->role) }}</span></td></tr>
+                <tr><th>Role:</th><td><span class="badge bg-info">{{ ucfirst($user->profile) }}</span></td></tr>
                 <tr><th>Joined On:</th><td>{{ $user->created_at->format('d M Y') }}</td></tr>
             </table>
 
