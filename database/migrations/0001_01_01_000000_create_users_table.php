@@ -12,13 +12,32 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('users', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->rememberToken();
-            $table->timestamps();
+        $table->id();
+        $table->string('first_name');
+        $table->string('middle_name')->nullable();
+        $table->string('last_name');
+        $table->string('email')->unique();
+        $table->timestamp('email_verified_at')->nullable();
+        $table->string('password');
+        $table->string('phone')->nullable();
+        $table->date('dob')->nullable();
+        $table->enum('gender', ['male', 'female', 'other'])->default('other');
+        $table->string('father_name')->nullable();
+        $table->string('mother_name')->nullable();
+        $table->enum('marital_status', ['single', 'married', 'divorced', 'widowed', 'separated'])->default('single');
+        $table->string('spouse_name')->nullable();
+        $table->text('current_address')->nullable();
+        $table->text('permanent_address')->nullable();
+        $table->string('voter_id_card_no')->nullable();
+        $table->string('pan_card_no')->nullable();
+        $table->string('aadhar_no')->nullable();
+        $table->enum('highest_qualification', ['matriculation', 'higher_secondary', 'graduation', 'masters', 'phd'])->nullable();
+        $table->date('joined_at')->nullable();
+        $table->enum('profile', ['student', 'teacher', 'admin', 'staff'])->nullable();
+        $table->enum('status', ['active', 'inactive','lead','alumni','withdrawn'])->default('active');
+        $table->string('enc_key')->nullable();
+        $table->rememberToken();
+        $table->timestamps();
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {

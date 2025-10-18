@@ -264,7 +264,7 @@
     <nav class="navbar navbar-expand-lg navbar-custom" id="navbar">
         <div class="container-fluid">
             <button class="hamburger me-3" id="toggleSidebar"><i class="bi bi-list"></i></button>
-            <span class="navbar-brand">Good Morning, {{ Auth::user()->name }} 👋</span>
+            <span class="navbar-brand">Hii Mr. {{ Auth::user()->last_name }} 👋</span>
 
             <form class="d-flex ms-auto me-4">
                 <input class="form-control form-control-sm me-2" type="search" placeholder="Search..." aria-label="Search">
@@ -273,8 +273,8 @@
 
             <div class="dropdown">
                 <a href="#" class="d-flex align-items-center text-decoration-none dropdown-toggle" data-bs-toggle="dropdown">
-                    <img src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->name) }}" alt="Avatar" width="32" height="32" class="rounded-circle me-2">
-                    <span>{{ Auth::user()->name }}</span>
+                    <img src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->last_name) }}" alt="Avatar" width="32" height="32" class="rounded-circle me-2">
+                    <span>{{ Auth::user()->last_name }}</span>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end shadow-sm">
                     <li><a class="dropdown-item" href="{{ route('users.profile') }}"><i class="bi bi-person me-2"></i>Profile</a></li>
