@@ -14,18 +14,19 @@ return new class extends Migration
         Schema::create('meta_results', function (Blueprint $table) {
             $table->id();
             $table->date('date')->comment('Report date');
-            $table->string('link_clicks')->nullable();
-            $table->string('cost_per_link_clicks')->nullable();
-            $table->string('views')->nullable();
-            $table->string('viewers')->nullable();
-            $table->string('post_engagements')->nullable();
-            $table->string('three_second_video_plays')->nullable();
-            $table->string('post_reactions')->nullable();
-            $table->string('estimated_call_confirmation_clicks')->nullable();
-            $table->string('twenty_second_phone_calls')->nullable();
-            $table->string('post_comments')->nullable();
-            $table->string('post_shares')->nullable();
-            $table->string('actual_call')->nullable();
+            // Using decimal for numeric reporting metrics
+            $table->decimal('link_clicks', 10, 2)->nullable();
+            $table->decimal('cost_per_link_clicks', 10, 2)->nullable();
+            $table->decimal('views', 10, 2)->nullable();
+            $table->decimal('viewers', 10, 2)->nullable();
+            $table->decimal('post_engagements', 10, 2)->nullable();
+            $table->decimal('three_second_video_plays', 10, 2)->nullable();
+            $table->decimal('post_reactions', 10, 2)->nullable();
+            $table->decimal('estimated_call_confirmation_clicks', 10, 2)->nullable();
+            $table->decimal('twenty_second_phone_calls', 10, 2)->nullable();
+            $table->decimal('post_comments', 10, 2)->nullable();
+            $table->decimal('post_shares', 10, 2)->nullable();
+            $table->decimal('actual_call', 10, 2)->nullable();
             $table->timestamps();
         });
     }

@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\LeadController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\BatchController;
 use App\Http\Controllers\CourseController;
@@ -16,6 +17,9 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\MetaResultController;
 use App\Http\Controllers\ClassSessionController;
 use App\Http\Controllers\OrganisationController;
+use App\Http\Controllers\MarketingSourceController;
+use App\Http\Controllers\CrmPipelineStageController;
+use App\Http\Controllers\LeadConversionStatController;
 
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [AuthController::class, 'login'])->name('login.post');
@@ -61,6 +65,14 @@ Route::middleware('auth')->group(function () {
     Route::resource('expenses', ExpenseController::class);
 
     Route::resource('meta_results', MetaResultController::class);
+
+    Route::resource('marketing_sources', MarketingSourceController::class);
+
+    Route::resource('crm_pipeline_stages', CrmPipelineStageController::class);
+
+    Route::resource('leads', LeadController::class);
+
+    Route::resource('lead_conversion_stats', LeadConversionStatController::class);
 
 });
 

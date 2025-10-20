@@ -247,7 +247,7 @@
         </div>
 
         <!--Marketing -->
-        <h6>Online</h6>
+        <h6>Marketing</h6>
         <button class="btn" data-bs-toggle='collapse' data-bs-target='#metaMenu'>
             <i class="bi bi-meta me-2"></i>
             <span>Meta Ad</span>
@@ -262,8 +262,17 @@
             <span>CRM</span>
         </button>
         <div class="collapse" id="crmMenu">
-            <a href="#"><i class="bi bi-person-plus me-2 text-primary"></i>New Lead</a>
-            <a href="#"><i class="bi bi-bar-chart-line me-2 text-success"></i>Results</a>
+            <h6>Configurations</h6>
+            <a href="{{route('marketing_sources.create')}}"><i class="bi bi-person-plus me-2 text-primary"></i>Marketing Sources</a>
+            <a href="{{route('marketing_sources.index')}}"><i class="bi bi-person-plus me-2 text-primary"></i>Marketing Sources Results</a>
+            <a href="{{route('crm_pipeline_stages.create')}}"><i class="bi bi-person-plus me-2 text-primary"></i>CRM Pipeline Stages</a>
+            <a href="{{route('crm_pipeline_stages.index')}}"><i class="bi bi-person-plus me-2 text-primary"></i>CRM Pipeline Stages Results</a>
+
+            <h6>Deals</h6>
+            <a href="{{route('leads.create')}}"><i class="bi bi-person-plus me-2 text-primary"></i>Leads</a>
+            <a href="{{route('leads.index')}}"><i class="bi bi-person-plus me-2 text-primary"></i>Leads Result</a>
+            <a href="{{route('lead_conversion_stats.create')}}"><i class="bi bi-bar-chart-line me-2 text-success"></i>Leads Conversion Status</a>
+            <a href="{{route('lead_conversion_stats.index')}}"><i class="bi bi-bar-chart-line me-2 text-success"></i>Leads Conversion Result</a>
         </div>
         
 
