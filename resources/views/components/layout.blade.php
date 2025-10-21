@@ -60,7 +60,9 @@
 
         .sidebar a,
         .sidebar button {
-            display: block;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             color: #333;
             text-decoration: none;
             padding: 8px 20px;
@@ -89,10 +91,14 @@
             display: none;
         }
 
+        .arrow {
+            transition: transform 0.3s ease;
+        }
+
         /* ========== NAVBAR ========== */
         .navbar-custom {
             background-color: #fff;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
             position: fixed;
             top: 0;
             left: 250px;
@@ -135,13 +141,13 @@
         .sidebar::-webkit-scrollbar {
             width: 4px;
         }
+
         .sidebar::-webkit-scrollbar-thumb {
             background: #ccc;
             border-radius: 10px;
         }
     </style>
 </head>
-
 <body>
     <!-- ===== Sidebar ===== -->
     <aside class="sidebar" id="sidebar">
@@ -151,90 +157,90 @@
             <i class="bi bi-speedometer2 me-2"></i><span>Dashboard</span>
         </a>
 
-        <!-- People -->
+        <!-- PEOPLE -->
         <h6>People</h6>
-
         <button class="btn" data-bs-toggle="collapse" data-bs-target="#studentsMenu">
-            🎓 <span>Students</span>
+            <span>🎓 Students</span>
+            <span class="arrow">&#9656;</span>
         </button>
         <div class="collapse {{ request()->is('students*') ? 'show' : '' }}" id="studentsMenu">
             <a href="{{ route('students.index') }}">📋 List</a>
             <a href="{{ route('students.search') }}">🔍 Search</a>
-            {{-- <a href="{{ route('students.create') }}">➕ New</a> --}}
         </div>
 
         <button class="btn" data-bs-toggle="collapse" data-bs-target="#teachersMenu">
-            👩‍🏫 <span>Teachers</span>
+            <span>👩‍🏫 Teachers</span>
+            <span class="arrow">&#9656;</span>
         </button>
         <div class="collapse {{ request()->is('teachers*') ? 'show' : '' }}" id="teachersMenu">
             <a href="{{ route('teachers.index') }}">📋 List</a>
             <a href="{{ route('teachers.search') }}">🔍 Search</a>
-            {{-- <a href="{{ route('teachers.create') }}">➕ New</a> --}}
         </div>
 
-        <!-- Academics -->
+        <!-- ACADEMICS -->
         <h6>Academics</h6>
-
         <button class="btn" data-bs-toggle="collapse" data-bs-target="#coursesMenu">
-            📚 <span>Courses</span>
+            <span>📚 Courses</span>
+            <span class="arrow">&#9656;</span>
         </button>
         <div class="collapse {{ request()->is('courses*') ? 'show' : '' }}" id="coursesMenu">
             <a href="{{ route('courses.index') }}">📋 List</a>
             <a href="{{ route('courses.search') }}">🔍 Search</a>
-            <a href="{{ route('courses.create') }}">➕ New</a>
         </div>
 
         <button class="btn" data-bs-toggle="collapse" data-bs-target="#batchesMenu">
-            📦 <span>Batches</span>
+            <span>📦 Batches</span>
+            <span class="arrow">&#9656;</span>
         </button>
         <div class="collapse {{ request()->is('batches*') ? 'show' : '' }}" id="batchesMenu">
             <a href="{{ route('batches.index') }}">📋 List</a>
             <a href="{{ route('batches.search') }}">🔍 Search</a>
-            <a href="{{ route('batches.create') }}">➕ New</a>
         </div>
 
         <button class="btn" data-bs-toggle="collapse" data-bs-target="#schedulesMenu">
-            🗓️ <span>Schedules</span>
+            <span>🗓️ Schedules</span>
+            <span class="arrow">&#9656;</span>
         </button>
         <div class="collapse {{ request()->is('schedules*') ? 'show' : '' }}" id="schedulesMenu">
             <a href="{{ route('schedules.index') }}">📋 List</a>
-            <a href="{{ route('schedules.create') }}">➕ New</a>
         </div>
 
-        <!-- Finance -->
+        <!-- FINANCE -->
         <h6>Finance</h6>
-
         <button class="btn" data-bs-toggle="collapse" data-bs-target="#paymentsMenu">
-            💰 <span>Payments</span>
+            <span>💰 Payments</span>
+            <span class="arrow">&#9656;</span>
         </button>
         <div class="collapse {{ request()->is('payments*') ? 'show' : '' }}" id="paymentsMenu">
             <a href="{{ route('payments.index') }}">📋 All Payments</a>
-            <a href="{{ route('payments.create') }}">➕ Record Payment</a>
         </div>
 
         <button class="btn" data-bs-toggle="collapse" data-bs-target="#expensesMenu">
-            💸 <span>Expenses</span>
+            <span>💸 Expenses</span>
+            <span class="arrow">&#9656;</span>
         </button>
         <div class="collapse {{ request()->is('expenses*') ? 'show' : '' }}" id="expensesMenu">
             <a href="{{ route('expenses.index') }}">📋 All Expenses</a>
-            <a href="{{ route('expenses.create') }}">➕ New Expense</a>
         </div>
 
-        <!-- Administration -->
+        <!-- ADMINISTRATION -->
         <h6>Administration</h6>
-        <a href="{{ route('organisation.index') }}">🏢 <span>Organization</span></a>
+        <a href="{{ route('organisation.index') }}">🏢 Organization</a>
+
         <button class="btn" data-bs-toggle="collapse" data-bs-target="#usersMenu">
-            💸 <span>Users</span>
+            <span>💸 Users</span>
+            <span class="arrow">&#9656;</span>
         </button>
-         <div class="collapse {{ request()->is('users*') ? 'show' : '' }}" id="usersMenu">
-            <a href="{{ route('users.create') }}">👥 <span>New </span></a>
-            <a href="{{ route('users.index') }}">👥 <span>List </span></a>
-            <a href="{{ route('users.search') }}">👥 <span>Search </span></a>
+        <div class="collapse {{ request()->is('users*') ? 'show' : '' }}" id="usersMenu">
+            <a href="{{ route('users.index') }}">👥 List</a>
+            <a href="{{ route('users.search') }}">🔍 Search</a>
         </div>
-        <a href="#">🛡️ <span>Roles & Permissions</span></a>
+
+        <a href="#">🛡️ Roles & Permissions</a>
 
         <button class="btn" data-bs-toggle="collapse" data-bs-target="#masterDataMenu">
-            ⚙️ <span>Master Data</span>
+            <span>⚙️ Master Data</span>
+            <span class="arrow">&#9656;</span>
         </button>
         <div class="collapse" id="masterDataMenu">
             <a href="#">💼 Expense Heads</a>
@@ -246,54 +252,140 @@
             <a href="#">💾 Backups</a>
         </div>
 
-        <!--Marketing -->
+        <!-- MARKETING -->
         <h6>Marketing</h6>
-        <button class="btn" data-bs-toggle='collapse' data-bs-target='#metaMenu'>
-            <i class="bi bi-meta me-2"></i>
-            <span>Meta Ad</span>
+        <button class="btn w-100 text-start d-flex justify-content-between align-items-center"
+                data-bs-toggle="collapse" data-bs-target="#onlineMenu" aria-expanded="false">
+            <span>Online</span>
+            <span class="arrow">&#9656;</span>
         </button>
-        <div class="collapse" id="metaMenu">
-            <a href="{{route('meta_results.create')}}"><i class="bi bi-plus-circle me-2 text-primary"></i>Add Results</a>
-            <a href="{{route('meta_results.index')}}"><i class="bi bi-eye me-2 text-success"></i>View Results</a>
+        <div class="collapse" id="onlineMenu">
+            <div class="ms-3 mt-2">
+                <button class="btn w-100 text-start d-flex justify-content-between align-items-center"
+                        data-bs-toggle="collapse" data-bs-target="#socialMediaMenu" aria-expanded="false">
+                    <span>Social Media</span>
+                    <span class="arrow">&#9656;</span>
+                </button>
+                <div class="collapse" id="socialMediaMenu">
+                    <div class="ms-3 mt-2">
+                        <button class="btn w-100 text-start d-flex justify-content-between align-items-center"
+                                data-bs-toggle="collapse" data-bs-target="#metaMenu" aria-expanded="false">
+                            <span>Meta Ads</span>
+                            <span class="arrow">&#9656;</span>
+                        </button>
+                        <div class="collapse {{ request()->is('meta_results*') ? 'show' : '' }}" id="metaMenu">
+                            <div class="ms-3">
+                                <a href="{{ route('meta_results.index') }}">
+                                    <i class="bi bi-eye me-2 text-success"></i>Results
+                                </a><br>
+                                <a href="#">
+                                    <i class="bi bi-plus-circle me-2 text-primary"></i>New Ads
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="ms-3 mt-2">
+                        <button class="btn w-100 text-start d-flex justify-content-between align-items-center"
+                                data-bs-toggle="collapse" data-bs-target="#seoMenu" aria-expanded="false">
+                            <span>SEO</span>
+                            <span class="arrow">&#9656;</span>
+                        </button>
+                        <div class="collapse" id="seoMenu">
+                            <div class="ms-3">
+                                <a href="#"><i class="bi bi-graph-up me-2 text-warning"></i> Analytics</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="ms-3 mt-2">
+                        <button class="btn w-100 text-start d-flex justify-content-between align-items-center"
+                                data-bs-toggle="collapse" data-bs-target="#googleAdsMenu" aria-expanded="false">
+                            <span>Google Ads</span>
+                            <span class="arrow">&#9656;</span>
+                        </button>
+                        <div class="collapse" id="googleAdsMenu">
+                            <div class="ms-3">
+                                <a href="#"><i class="bi bi-google me-2 text-danger"></i> Campaigns</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 
-        <button class="btn" data-bs-toggle='collapse' data-bs-target='#crmMenu'>
-             <i class="bi bi-diagram-3 me-2"></i>
-            <span>CRM</span>
-        </button>
-        <div class="collapse" id="crmMenu">
-            <h6>Configurations</h6>
-            <a href="{{route('marketing_sources.create')}}"><i class="bi bi-person-plus me-2 text-primary"></i>Marketing Sources</a>
-            <a href="{{route('marketing_sources.index')}}"><i class="bi bi-person-plus me-2 text-primary"></i>Marketing Sources Results</a>
-            <a href="{{route('crm_pipeline_stages.create')}}"><i class="bi bi-person-plus me-2 text-primary"></i>CRM Pipeline Stages</a>
-            <a href="{{route('crm_pipeline_stages.index')}}"><i class="bi bi-person-plus me-2 text-primary"></i>CRM Pipeline Stages Results</a>
+        <!-- CRM -->
+        <div class="mt-2">
+            <button class="btn w-100 text-start d-flex justify-content-between align-items-center"
+                    data-bs-toggle="collapse" data-bs-target="#crmMenu" aria-expanded="false">
+                <span>CRM</span>
+                <span class="arrow">&#9656;</span>
+            </button>
+            <div class="collapse {{ request()->is('marketing_sources*') || request()->is('crm_pipeline_stages*') || request()->is('leads*') || request()->is('lead_conversion_stats*') ? 'show' : '' }}" id="crmMenu">
+                <div class="ms-3">
+                    <button class="btn w-100 text-start d-flex justify-content-between align-items-center mt-2"
+                            data-bs-toggle="collapse" data-bs-target="#dealsMenu" aria-expanded="false">
+                        <span>Deals</span>
+                        <span class="arrow">&#9656;</span>
+                    </button>
+                    <div class="collapse" id="dealsMenu">
+                        <div class="ms-3">
+                            <a href="{{ route('leads.index') }}">
+                                <i class="bi bi-person-plus me-2 text-primary"></i>Leads
+                            </a><br>
+                            <a href="{{ route('lead_conversion_stats.index') }}">
+                                <i class="bi bi-bar-chart-line me-2 text-success"></i> List
+                            </a>
+                        </div>
+                    </div>
 
-            <h6>Deals</h6>
-            <a href="{{route('leads.create')}}"><i class="bi bi-person-plus me-2 text-primary"></i>Leads</a>
-            <a href="{{route('leads.index')}}"><i class="bi bi-person-plus me-2 text-primary"></i>Leads Result</a>
-            <a href="{{route('lead_conversion_stats.create')}}"><i class="bi bi-bar-chart-line me-2 text-success"></i>Leads Conversion Status</a>
-            <a href="{{route('lead_conversion_stats.index')}}"><i class="bi bi-bar-chart-line me-2 text-success"></i>Leads Conversion Result</a>
+                    <button class="btn w-100 text-start d-flex justify-content-between align-items-center mt-2"
+                            data-bs-toggle="collapse" data-bs-target="#analyticsMenu" aria-expanded="false">
+                        <span>Analytics</span>
+                        <span class="arrow">&#9656;</span>
+                    </button>
+                    <div class="collapse" id="analyticsMenu">
+                        <div class="ms-3">
+                            <a href="#"><i class="bi bi-graph-up-arrow me-2 text-info"></i> CRM Analytics</a>
+                        </div>
+                    </div>
+
+                    <button class="btn w-100 text-start d-flex justify-content-between align-items-center mt-2"
+                            data-bs-toggle="collapse" data-bs-target="#configMenu" aria-expanded="false">
+                        <span>Configurations</span>
+                        <span class="arrow">&#9656;</span>
+                    </button>
+                    <div class="collapse" id="configMenu">
+                        <div class="ms-3">
+                            <a href="{{ route('marketing_sources.index') }}">
+                                <i class="bi bi-gear me-2 text-primary"></i>Marketing Sources
+                            </a><br>
+                            <a href="{{ route('crm_pipeline_stages.index') }}">
+                                <i class="bi bi-diagram-3 me-2 text-success"></i>CRM Pipeline Stages
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        
 
-        <!-- Help -->
+        <!-- HELP -->
         <h6>Help</h6>
         <button class="btn" data-bs-toggle="collapse" data-bs-target="#helpMenu">
-            🆘 <span>Help & Support</span>
+            <span>🆘 Help & Support</span>
+            <span class="arrow">&#9656;</span>
         </button>
         <div class="collapse" id="helpMenu">
             <a href="#">📘 Documentation</a>
             <a href="#">☎️ Contact Support</a>
         </div>
 
-        <!-- Account -->
+        <!-- ACCOUNT -->
         <h6>Account</h6>
-        <a href="{{ route('users.profile') }}">👤 <span>Profile</span></a>
-
-        <form method="POST" action="{{ route('logout') }}" class=" mt-3 mb-4">
+        <a href="{{ route('users.profile') }}">👤 Profile</a>
+        <form method="POST" action="{{ route('logout') }}" class="mt-3 mb-4">
             @csrf
-            {{-- <button type="submit" class="btn btn-danger w-100" data-bs-toggle="collapse" data-bs-target="#helpMenu">🚪 Sign Out</button> --}}
-            <button>🚪<span>Sign Out</span></button>
+            <button>🚪Sign Out</button>
         </form>
     </aside>
 
@@ -314,12 +406,18 @@
                     <span>{{ Auth::user()->last_name }}</span>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end shadow-sm">
-                    <li><a class="dropdown-item" href="{{ route('users.profile') }}"><i class="bi bi-person me-2"></i>Profile</a></li>
+                    <li>
+                        <a class="dropdown-item" href="{{ route('users.profile') }}">
+                            <i class="bi bi-person me-2"></i>Profile
+                        </a>
+                    </li>
                     <li><hr class="dropdown-divider"></li>
                     <li>
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
-                            <button type="submit" class="dropdown-item text-danger"><i class="bi bi-box-arrow-right me-2"></i>Logout</button>
+                            <button type="submit" class="dropdown-item text-danger">
+                                <i class="bi bi-box-arrow-right me-2"></i>Logout
+                            </button>
                         </form>
                     </li>
                 </ul>
@@ -329,15 +427,14 @@
 
     <!-- ===== Main Content ===== -->
     <main class="main" id="main">
-    <div class="container-fluid px-4">
-        <div class="card shadow-sm border-0">
-            <div class="card-body p-4">
-                {{ $slot }}
+        <div class="container-fluid px-4">
+            <div class="card shadow-sm border-0">
+                <div class="card-body p-4">
+                    {{ $slot }}
+                </div>
             </div>
         </div>
-    </div>
-</main>
-
+    </main>
 
     <!-- ===== Scripts ===== -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
@@ -347,7 +444,7 @@
         const main = document.getElementById('main');
         const toggleBtn = document.getElementById('toggleSidebar');
 
-        // Restore sidebar state from localStorage
+        // Restore sidebar state
         if (localStorage.getItem('sidebarCollapsed') === 'true') {
             sidebar.classList.add('collapsed');
             navbar.classList.add('collapsed');
@@ -358,9 +455,30 @@
             sidebar.classList.toggle('collapsed');
             navbar.classList.toggle('collapsed');
             main.classList.toggle('collapsed');
-
-            // Save state
             localStorage.setItem('sidebarCollapsed', sidebar.classList.contains('collapsed'));
+        });
+
+        // Arrow rotation for every collapse
+        document.querySelectorAll('[data-bs-toggle="collapse"]').forEach(button => {
+            const arrow = button.querySelector('.arrow');
+            const targetSelector = button.getAttribute('data-bs-target');
+
+            if (!arrow || !targetSelector) {
+                return;
+            }
+
+            const target = document.querySelector(targetSelector);
+            if (!target) {
+                return;
+            }
+
+            target.addEventListener('shown.bs.collapse', () => {
+                arrow.style.transform = 'rotate(90deg)';
+            });
+
+            target.addEventListener('hidden.bs.collapse', () => {
+                arrow.style.transform = 'rotate(0deg)';
+            });
         });
     </script>
 </body>
