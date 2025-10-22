@@ -153,9 +153,7 @@
     <aside class="sidebar" id="sidebar">
         <h4>📊 Mascot</h4>
 
-        <a href="{{ route('dashboard') }}" class="{{ request()->is('dashboard') ? 'active' : '' }}">
-            <i class="bi bi-speedometer2 me-2"></i><span>Dashboard</span>
-        </a>
+        <a href="{{ route('dashboard') }}" class="{{ request()->is('dashboard') ? 'active' : '' }}"> <span> 📈 Dashboard</span></a>
 
         <!-- PEOPLE -->
         <h6>People</h6>
@@ -256,31 +254,27 @@
         <h6>Marketing</h6>
         <button class="btn w-100 text-start d-flex justify-content-between align-items-center"
                 data-bs-toggle="collapse" data-bs-target="#onlineMenu" aria-expanded="false">
-            <span>Online</span>
+            <span> 🌎 Online</span>
             <span class="arrow">&#9656;</span>
         </button>
         <div class="collapse" id="onlineMenu">
             <div class="ms-3 mt-2">
                 <button class="btn w-100 text-start d-flex justify-content-between align-items-center"
                         data-bs-toggle="collapse" data-bs-target="#socialMediaMenu" aria-expanded="false">
-                    <span>Social Media</span>
+                    <span>🌐 Social Media</span>
                     <span class="arrow">&#9656;</span>
                 </button>
                 <div class="collapse" id="socialMediaMenu">
                     <div class="ms-3 mt-2">
                         <button class="btn w-100 text-start d-flex justify-content-between align-items-center"
                                 data-bs-toggle="collapse" data-bs-target="#metaMenu" aria-expanded="false">
-                            <span>Meta Ads</span>
+                            <span>♾️ Meta Ads</span>
                             <span class="arrow">&#9656;</span>
                         </button>
                         <div class="collapse {{ request()->is('meta_results*') ? 'show' : '' }}" id="metaMenu">
                             <div class="ms-3">
-                                <a href="{{ route('meta_results.index') }}">
-                                    <i class="bi bi-eye me-2 text-success"></i>Results
-                                </a><br>
-                                <a href="#">
-                                    <i class="bi bi-plus-circle me-2 text-primary"></i>New Ads
-                                </a>
+                                <a href="{{ route('meta_results.index') }}"> 📝 Results</a>
+                                {{-- <a href="#">New Ads</a> --}}
                             </div>
                         </div>
                     </div>
@@ -288,12 +282,12 @@
                     <div class="ms-3 mt-2">
                         <button class="btn w-100 text-start d-flex justify-content-between align-items-center"
                                 data-bs-toggle="collapse" data-bs-target="#seoMenu" aria-expanded="false">
-                            <span>SEO</span>
+                            <span>💻 SEO</span>
                             <span class="arrow">&#9656;</span>
                         </button>
                         <div class="collapse" id="seoMenu">
                             <div class="ms-3">
-                                <a href="#"><i class="bi bi-graph-up me-2 text-warning"></i> Analytics</a>
+                                <a href="#">📊 Analytics</a>
                             </div>
                         </div>
                     </div>
@@ -301,12 +295,12 @@
                     <div class="ms-3 mt-2">
                         <button class="btn w-100 text-start d-flex justify-content-between align-items-center"
                                 data-bs-toggle="collapse" data-bs-target="#googleAdsMenu" aria-expanded="false">
-                            <span>Google Ads</span>
+                            <span>🇬 Google Google Ads</span>
                             <span class="arrow">&#9656;</span>
                         </button>
                         <div class="collapse" id="googleAdsMenu">
                             <div class="ms-3">
-                                <a href="#"><i class="bi bi-google me-2 text-danger"></i> Campaigns</a>
+                                <a href="#">🇬 GoogleCampaigns</a>
                             </div>
                         </div>
                     </div>
@@ -318,35 +312,31 @@
         <div class="mt-2">
             <button class="btn w-100 text-start d-flex justify-content-between align-items-center"
                     data-bs-toggle="collapse" data-bs-target="#crmMenu" aria-expanded="false">
-                <span>CRM</span>
+                <span>🎫 CRM</span>
                 <span class="arrow">&#9656;</span>
             </button>
             <div class="collapse {{ request()->is('marketing_sources*') || request()->is('crm_pipeline_stages*') || request()->is('leads*') || request()->is('lead_conversion_stats*') ? 'show' : '' }}" id="crmMenu">
                 <div class="ms-3">
                     <button class="btn w-100 text-start d-flex justify-content-between align-items-center mt-2"
                             data-bs-toggle="collapse" data-bs-target="#dealsMenu" aria-expanded="false">
-                        <span>Deals</span>
+                        <span>🤝 Deals</span>
                         <span class="arrow">&#9656;</span>
                     </button>
                     <div class="collapse" id="dealsMenu">
                         <div class="ms-3">
-                            <a href="{{ route('leads.index') }}">
-                                <i class="bi bi-person-plus me-2 text-primary"></i>Leads
-                            </a><br>
-                            <a href="{{ route('lead_conversion_stats.index') }}">
-                                <i class="bi bi-bar-chart-line me-2 text-success"></i> List
-                            </a>
+                            <a href="{{ route('leads.index') }}">🎯 Leads</a>
+                            <a href="{{ route('lead_conversion_stats.index') }}">📑 List</a>
                         </div>
                     </div>
 
                     <button class="btn w-100 text-start d-flex justify-content-between align-items-center mt-2"
                             data-bs-toggle="collapse" data-bs-target="#analyticsMenu" aria-expanded="false">
-                        <span>Analytics</span>
+                        <span>📶 Analytics</span>
                         <span class="arrow">&#9656;</span>
                     </button>
                     <div class="collapse" id="analyticsMenu">
                         <div class="ms-3">
-                            <a href="#"><i class="bi bi-graph-up-arrow me-2 text-info"></i> CRM Analytics</a>
+                            <a href="#">📶 CRM Analytics</a>
                         </div>
                     </div>
 
@@ -357,12 +347,8 @@
                     </button>
                     <div class="collapse" id="configMenu">
                         <div class="ms-3">
-                            <a href="{{ route('marketing_sources.index') }}">
-                                <i class="bi bi-gear me-2 text-primary"></i>Marketing Sources
-                            </a><br>
-                            <a href="{{ route('crm_pipeline_stages.index') }}">
-                                <i class="bi bi-diagram-3 me-2 text-success"></i>CRM Pipeline Stages
-                            </a>
+                            <a href="{{ route('marketing_sources.index') }}">ℹ️ Marketing Source </a>
+                            <a href="{{ route('crm_pipeline_stages.index') }}">🛢️ CRM Pipeline Stages </a>
                         </div>
                     </div>
                 </div>
