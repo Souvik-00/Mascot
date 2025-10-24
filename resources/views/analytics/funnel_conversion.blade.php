@@ -31,11 +31,11 @@
         </div>
 
     
-    
+        {{-- Mql --}}
         <div class="col-md-4 col-lg-4">
         <div class="card shadow-sm border-0 text-center h-100 py-3">
             @php
-                $isGood = $mqlCount >= 60;
+                $isGood = $mqlCount >= 40;
             @endphp
 
             <h5 class="fw-bold mb-1 d-flex justify-content-center align-items-center gap-1">

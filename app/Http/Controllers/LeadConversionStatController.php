@@ -15,10 +15,11 @@ class LeadConversionStatController extends Controller
     public function index()
     {
         $stats = LeadConversionStat::with(['lead', 'pipelineStage'])
-                    ->orderBy('date', 'desc')
-                    ->paginate(10);
+                ->orderBy('leads_id')
+                ->orderBy('date', 'asc') // oldest first, latest last
+                ->paginate(10);
 
-        return view('lead_conversion_stats.index', compact('stats'));
+    return view('lead_conversion_stats.index', compact('stats'));
     }
 
     /**
@@ -75,17 +76,18 @@ class LeadConversionStatController extends Controller
      */
     public function update(Request $request, LeadConversionStat $lead_conversion_stat)
     {
-        $validated = $request->validate([
-            'leads_id' => 'required|exists:leads_tbl,id',
-            'date' => 'required|date',
-            'crm_pipeline_stages_id' => 'required|exists:crm_pipeline_stages_tbl,id',
-            'comments' => 'required|string',
-        ]);
+    $validated = $request->validate([
+        'leads_id' => 'required|exists:leads_tbl,id',
+        'date' => 'required|date',
+        'crm_pipeline_stages_id' => 'required|exists:crm_pipeline_stages_tbl,id',
+        'comments' => 'required|string',
+    ]);
 
-        $lead_conversion_stat->update($validated);
+    // Instead of updating existing record, insert a new record
+    LeadConversionStat::create($validated);
 
-        return redirect()->route('lead_conversion_stats.index')
-            ->with('success', 'Lead conversion record updated successfully.');
+    return redirect()->route('lead_conversion_stats.index')
+        ->with('success', 'Lead conversion updated. Previous version retained.');
     }
 
     /**

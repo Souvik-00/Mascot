@@ -1,22 +1,19 @@
 <x-layout title="Edit Lead Conversion Record">
-    <h3 class="mb-4">✏️ Edit Lead Conversion Record</h3>
+    <h3 class="mb-4">✏️ Add New Version for Lead</h3>
 
-    <form method="POST" action="{{ route('lead_conversion_stats.edit', $lead_conversion_stat->id) }}">
+    <form method="POST" action="{{ route('lead_conversion_stats.update', $lead_conversion_stat->id) }}">
         @csrf
         @method('PUT')
 
-        {{-- Lead --}}
+        {{-- Lead (Locked) --}}
         <div class="mb-3">
             <label class="form-label fw-semibold">Lead</label>
-            <select name="leads_id" class="form-control @error('leads_id') is-invalid @enderror" required>
-                <option value="">-- Select Lead --</option>
-                @foreach($leads as $lead)
-                    <option value="{{ $lead->id }}" {{ old('leads_id', $lead_conversion_stat->leads_id) == $lead->id ? 'selected' : '' }}>
-                        {{ $lead->name }}
-                    </option>
-                @endforeach
-            </select>
-            @error('leads_id') <div class="invalid-feedback">{{ $message }}</div> @enderror
+            <input 
+                type="text" 
+                class="form-control" 
+                value="{{ $lead_conversion_stat->lead->name ?? 'N/A' }}" 
+                disabled>
+            <input type="hidden" name="leads_id" value="{{ $lead_conversion_stat->leads_id }}">
         </div>
 
         {{-- Date --}}
@@ -56,6 +53,6 @@
             @error('comments') <div class="invalid-feedback">{{ $message }}</div> @enderror
         </div>
 
-        <button class="btn btn-success w-100">Update Record</button>
+        <button class="btn btn-success w-100">💾 Save as New Version</button>
     </form>
 </x-layout>
