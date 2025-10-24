@@ -34,7 +34,7 @@
                         <td>{{ $stat->pipelineStage->crm_pipeline_stages ?? 'N/A' }}</td>
                         <td>{{ Str::limit($stat->comments, 50) }}</td>
                         <td class="text-end">
-                            <a href="{{ route('lead_conversion_stats.show', $stat->id) }}" class="btn btn-sm btn-outline-info">👁️ View</a>
+                            {{-- <a href="{{ route('lead_conversion_stats.show', $stat->id) }}" class="btn btn-sm btn-outline-info">👁️ View</a> --}}
                             <a href="{{ route('lead_conversion_stats.edit', $stat->id) }}" class="btn btn-sm btn-outline-warning">✏️ Edit</a>
                             <form action="{{ route('lead_conversion_stats.destroy', $stat->id) }}" method="POST" class="d-inline">
                                 @csrf

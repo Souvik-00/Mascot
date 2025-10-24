@@ -1,7 +1,7 @@
 <x-layout title="Edit Lead Conversion Record">
     <h3 class="mb-4">✏️ Edit Lead Conversion Record</h3>
 
-    <form method="POST" action="{{ route('lead_conversion_stats.update', $lead_conversion_stat->id) }}">
+    <form method="POST" action="{{ route('lead_conversion_stats.edit', $lead_conversion_stat->id) }}">
         @csrf
         @method('PUT')
 

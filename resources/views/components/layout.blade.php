@@ -336,7 +336,7 @@
                     </button>
                     <div class="collapse" id="analyticsMenu">
                         <div class="ms-3">
-                            <a href="#">📶 CRM Analytics</a>
+                            <a href="{{route('analytics.funnel_conversion')}}">📶 Funnel & Conversion</a>
                         </div>
                     </div>
 

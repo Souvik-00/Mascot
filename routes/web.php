@@ -12,6 +12,7 @@ use App\Http\Controllers\SessionController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\ScheduleController;
+use App\Http\Controllers\AnalyticsController;
 use App\Http\Controllers\ClassroomController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\MetaResultController;
@@ -73,6 +74,11 @@ Route::middleware('auth')->group(function () {
     Route::resource('leads', LeadController::class);
 
     Route::resource('lead_conversion_stats', LeadConversionStatController::class);
+
+
+
+
+Route::get('analytics.funnel_conversion', [AnalyticsController::class, 'index'])->name('analytics.funnel_conversion');
 
 });
 
