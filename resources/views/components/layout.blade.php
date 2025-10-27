@@ -325,7 +325,7 @@
                     <div class="collapse" id="dealsMenu">
                         <div class="ms-3">
                             <a href="{{ route('leads.index') }}">🎯 Leads</a>
-                            <a href="{{ route('lead_conversion_stats.index') }}">📑 List</a>
+                            <a href="{{ route('lead_conversion_stats.index') }}">📑 Lead Conversion Stats</a>
                         </div>
                     </div>
 
@@ -355,7 +355,29 @@
             </div>
         </div>
 
-        <!-- HELP -->
+        <!--Trial -->
+
+         
+        <!-- Reports-->
+        <h6>Reports</h6>
+        <button class="btn" data-bs-toggle="collapse" data-bs-target="#helpMenu">
+            <span>🆘 Reports</span>
+            <span class="arrow">&#9656;</span>
+        </button>
+        <div class="collapse" id="helpMenu">
+            <a href="{{ route('students.index') }}">📘 Show Current Students</a>
+            <a href="#">☎️ Trial Class Enrollment</a> <!--By date -->
+            <a href="#">☎️ Payments By Students</a> <!--By date -->
+            <a href="#">☎️ Dues By Students</a>
+            <a href="#">☎️ Expense By Category</a> <!--By date -->
+            <a href="#">☎️ Ads Report By Date</a> <!--By date -->
+            <a href="#">☎️ Ads Expense By Date</a> <!--By date -->
+            <a href="#">☎️ Trials Ending This Week</a>
+        </div>
+
+
+
+        <!--Help -->
         <h6>Help</h6>
         <button class="btn" data-bs-toggle="collapse" data-bs-target="#helpMenu">
             <span>🆘 Help & Support</span>

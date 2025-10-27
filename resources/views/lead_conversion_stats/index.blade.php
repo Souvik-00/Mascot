@@ -42,6 +42,9 @@
                                 <a href="{{ route('lead_conversion_stats.edit', $stat->id) }}" class="btn btn-sm btn-outline-primary me-1">
                                     <i class="bi bi-pencil-square"></i>
                                 </a>
+                                <a href="{{ route('lead_conversion_stats.edit', $stat->id) }}" class="btn btn-sm btn-outline-primary me-1">
+                                    <i class="bi bi-pencil"></i>
+                                </a>
                                 <form action="{{ route('lead_conversion_stats.destroy', $stat->id) }}" 
                                       method="POST" class="d-inline">
                                     @csrf

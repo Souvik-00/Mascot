@@ -52,6 +52,8 @@
                 required>{{ old('comments', $lead_conversion_stat->comments) }}</textarea>
             @error('comments') <div class="invalid-feedback">{{ $message }}</div> @enderror
         </div>
+        
+        {{-- <p>{{ session('crm_pipeline_stages_id') }}</p> --}}
 
         <button class="btn btn-success w-100">💾 Save as New Version</button>
     </form>

@@ -10,57 +10,63 @@ class AnalyticsController extends Controller
     public function index() {
 
 
-        // Contactiblity Benchmark
-        $result = DB::select("
+        // ------------------ TODAY'S CONVERSION % ------------------
+    $result = DB::select("
         SELECT ROUND(
             (
                 SELECT COUNT(*)
                 FROM leads_conversion_stat_tbl AS lcs
-                WHERE lcs.date = CURRENT_DATE
+                WHERE lcs.date = CURDATE()
                 AND lcs.crm_pipeline_stages_id IN (
                     SELECT id
                     FROM crm_pipeline_stages_tbl
                     WHERE crm_pipeline_stages <> 'Disqualified'
                 )
             )
-            / NULLIF(
+            /
+            NULLIF(
                 (
                     SELECT COUNT(*)
                     FROM leads_tbl
-                    WHERE created_at >= CURRENT_DATE
-                    AND created_at < CURRENT_DATE + INTERVAL 1 DAY
-                ), 1
+                    WHERE created_at >= CURDATE()
+                    AND created_at < CURDATE() + INTERVAL 1 DAY
+                ), 0
             ) * 100, 2
-        ) AS pct");
+        ) AS pct
+    ");
 
     $conversionPercentage = $result[0]->pct ?? 0;
 
-        
-    
-        // MQL
-        $mql= DB::select("
+
+
+    // ------------------ TODAY'S MQL % ------------------
+    $mql = DB::select("
         SELECT ROUND(
             (
                 SELECT COUNT(*)
                 FROM leads_conversion_stat_tbl AS lcs
-                WHERE lcs.date = CURRENT_DATE
+                WHERE lcs.date = CURDATE()
                 AND lcs.crm_pipeline_stages_id IN (
                     SELECT id
                     FROM crm_pipeline_stages_tbl
-                    WHERE crm_pipeline_stages <> 'Marked Qualified Lead (MQL)'
+                    WHERE crm_pipeline_stages = 'Marketing Qualified Lead (MQL)'
                 )
             )
-            / NULLIF(
+            /
+            NULLIF(
                 (
                     SELECT COUNT(*)
                     FROM leads_tbl
-                    WHERE created_at >= CURRENT_DATE
-                    AND created_at < CURRENT_DATE + INTERVAL 1 DAY
-                ), 1
+                    WHERE created_at >= CURDATE()
+                    AND created_at < CURDATE() + INTERVAL 1 DAY
+                ), 0
             ) * 100, 2
-        ) AS pct");
+        ) AS pct
+    ");
 
-    $mqlCount = $mql[0]->total ?? 0;
+    $mqlCount = $mql[0]->pct ?? 0;
+
+
 
     return view('analytics.funnel_conversion', compact('conversionPercentage', 'mqlCount'));
     }

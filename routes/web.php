@@ -18,6 +18,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\MetaResultController;
 use App\Http\Controllers\ClassSessionController;
 use App\Http\Controllers\OrganisationController;
+use App\Http\Controllers\LeadsTrialStatController;
 use App\Http\Controllers\MarketingSourceController;
 use App\Http\Controllers\CrmPipelineStageController;
 use App\Http\Controllers\LeadConversionStatController;
@@ -74,6 +75,8 @@ Route::middleware('auth')->group(function () {
     Route::resource('leads', LeadController::class);
 
     Route::resource('lead_conversion_stats', LeadConversionStatController::class);
+
+    Route::resource('trial', LeadsTrialStatController::class);
 
 
 
