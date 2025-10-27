@@ -16,6 +16,19 @@
                 </div>
 
                 <div class="mb-3">
+                    <label class="form-label fw-semibold">Department</label>
+                    <select name="department_id" class="form-select">
+                        <option value="">-- Select Department --</option>
+                        @foreach($departments as $dept)
+                            <option value="{{ $dept->id }}" {{ old('department_id') == $dept->id ? 'selected' : '' }}>
+                                {{ $dept->dept_name }}
+                            </option>
+                        @endforeach
+                    </select>
+                    @error('department_id') <small class="text-danger">{{ $message }}</small> @enderror
+                </div>
+
+                <div class="mb-3">
                     <label class="form-label fw-semibold">Title *</label>
                     <input type="text" name="title" class="form-control" value="{{ old('title') }}">
                     @error('title') <small class="text-danger">{{ $message }}</small> @enderror

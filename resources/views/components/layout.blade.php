@@ -164,6 +164,7 @@
         <div class="collapse {{ request()->is('students*') ? 'show' : '' }}" id="studentsMenu">
             <a href="{{ route('students.index') }}">📋 List</a>
             <a href="{{ route('students.search') }}">🔍 Search</a>
+            <a href="{{route('batch_students.index')}}">🔍 Student Batch</a>
         </div>
 
         <button class="btn" data-bs-toggle="collapse" data-bs-target="#teachersMenu">
@@ -233,6 +234,15 @@
             <a href="{{ route('users.index') }}">👥 List</a>
             <a href="{{ route('users.search') }}">🔍 Search</a>
         </div>
+
+         <button class="btn" data-bs-toggle="collapse" data-bs-target="#departmentMenu">
+            <span>💸 Department</span>
+            <span class="arrow">&#9656;</span>
+        </button>
+        <div class="collapse {{ request()->is('users*') ? 'show' : '' }}" id="departmentMenu">
+            <a href="{{ route('department.index') }}">👥 List</a>
+        </div>
+
 
         <a href="#">🛡️ Roles & Permissions</a>
 
@@ -326,6 +336,7 @@
                         <div class="ms-3">
                             <a href="{{ route('leads.index') }}">🎯 Leads</a>
                             <a href="{{ route('lead_conversion_stats.index') }}">📑 Lead Conversion Stats</a>
+                            <a href="{{route('leads_attendance.mark')}}">☎️ Lead Attendance</a>
                         </div>
                     </div>
 
@@ -366,7 +377,8 @@
         </button>
         <div class="collapse" id="helpMenu">
             <a href="{{ route('students.index') }}">📘 Show Current Students</a>
-            <a href="#">☎️ Trial Class Enrollment</a> <!--By date -->
+            <a href="{{route('leads_trial.index')}}">☎️ Trial Class Enrollment</a> <!--By date -->
+            <a href="{{route('leads_attendance.index')}}">☎️ View Lead Attendance</a> <!--By date -->
             <a href="#">☎️ Payments By Students</a> <!--By date -->
             <a href="#">☎️ Dues By Students</a>
             <a href="#">☎️ Expense By Category</a> <!--By date -->

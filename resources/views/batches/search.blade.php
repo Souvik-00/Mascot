@@ -33,6 +33,7 @@
                     <tr>
                         <th>#</th>
                         <th>Batch Code</th>
+                        <th>Course</th>
                         <th>Title</th>
                         <th>Start</th>
                         <th>End</th>
@@ -44,6 +45,7 @@
                         <tr>
                             <td>{{ $index + $batches->firstItem() }}</td>
                             <td>{{ $batch->batch_code }}</td>
+                            <td>{{ $batch->course->title ?? '—' }}</td>
                             <td>{{ $batch->title }}</td>
                             <td>{{ \Carbon\Carbon::parse($batch->start_date)->format('d M Y') }}</td>
                             <td>{{ $batch->end_date ? \Carbon\Carbon::parse($batch->end_date)->format('d M Y') : '—' }}</td>

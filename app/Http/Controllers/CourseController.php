@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Course;
+use App\Models\Department;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
@@ -10,7 +11,8 @@ class CourseController extends Controller
 {
     public function index()
     {
-        $courses = Course::latest()->paginate(10);
+        // Eager load department to show its name in the table
+        $courses = Course::with('department')->orderByDesc('id')->paginate(15);
         return view('courses.index', compact('courses'));
     }
 
@@ -34,13 +36,16 @@ class CourseController extends Controller
 
     public function create()
     {
-        return view('courses.create');
+         // For dropdown
+        $departments = Department::orderBy('dept_name')->get(['id', 'dept_name']);
+        return view('courses.create', compact('departments'));
     }
 
     public function store(Request $request)
     {
         $validated = $request->validate([
             'class_code' => ['required', 'regex:/^CR-\d{3}$/', 'unique:courses,class_code'],
+            'department_id'   => 'nullable|exists:department,id',
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
             'duration_hours' => 'nullable|integer|min:0',
@@ -56,7 +61,8 @@ class CourseController extends Controller
 
     public function edit(Course $course)
     {
-        return view('courses.edit', compact('course'));
+        $departments = Department::orderBy('dept_name')->get(['id', 'dept_name']);
+        return view('courses.edit', compact('course', 'departments'));
     }
 
     public function update(Request $request, Course $course)
@@ -66,6 +72,7 @@ class CourseController extends Controller
                 'required', 'regex:/^CR-\d{3}$/',
                 Rule::unique('courses', 'class_code')->ignore($course->id)
             ],
+            'department_id'   => 'nullable|exists:department,id',
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
             'duration_hours' => 'nullable|integer|min:0',

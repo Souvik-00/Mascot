@@ -2,16 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\Batch;
+use App\Models\Course;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
-use Carbon\Carbon;
 
 class BatchController extends Controller
 {
     public function index()
     {
-        $batches = Batch::latest()->paginate(10);
+        $batches = Batch::with('course')->orderByDesc('id')->paginate(10);
         return view('batches.index', compact('batches'));
     }
 
@@ -34,13 +35,15 @@ class BatchController extends Controller
 
     public function create()
     {
-        return view('batches.create');
+        $courses = Course::orderBy('title')->get(['id', 'title']);
+        return view('batches.create', compact('courses'));
     }
 
     public function store(Request $request)
     {
         $validated = $request->validate([
             'batch_code' => ['required', 'regex:/^BT-\d{3}$/', 'unique:batches,batch_code'],
+            'course_id'    => 'nullable|exists:courses,id',
             'title' => 'required|string|max:255',
             'start_date' => 'required|date',
             'end_date' => 'nullable|date|after_or_equal:start_date',
@@ -56,7 +59,8 @@ class BatchController extends Controller
 
     public function edit(Batch $batch)
     {
-        return view('batches.edit', compact('batch'));
+        $courses = Course::orderBy('title')->get(['id', 'title']); // for dropdown
+        return view('batches.edit', compact('batch', 'courses'));
     }
 
     public function update(Request $request, Batch $batch)
@@ -66,6 +70,7 @@ class BatchController extends Controller
                 'required', 'regex:/^BT-\d{3}$/',
                 Rule::unique('batches', 'batch_code')->ignore($batch->id),
             ],
+            'course_id'    => 'nullable|exists:courses,id',
             'title' => 'required|string|max:255',
             'start_date' => 'required|date',
             'end_date' => 'nullable|date|after_or_equal:start_date',

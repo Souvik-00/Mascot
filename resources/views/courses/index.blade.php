@@ -18,6 +18,7 @@
                     <tr>
                         <th>#</th>
                         <th>Class Code</th>
+                        <th>Department</th>
                         <th>Title</th>
                         <th>Duration (hrs)</th>
                         <th>Max Students</th>
@@ -30,6 +31,7 @@
                         <tr>
                             <td>{{ $index + $courses->firstItem() }}</td>
                             <td><span class="fw-semibold">{{ $course->class_code }}</span></td>
+                            <td>{{ $course->department->dept_name ?? '—' }}</td>
                             <td>{{ $course->title }}</td>
                             <td>{{ $course->duration_hours ?? '—' }}</td>
                             <td>{{ $course->max_students ?? '—' }}</td>

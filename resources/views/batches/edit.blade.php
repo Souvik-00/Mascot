@@ -17,6 +17,20 @@
                 </div>
 
                 <div class="mb-3">
+                    <label class="form-label fw-semibold">Assign Course</label>
+                    <select name="course_id" class="form-select">
+                        <option value="">-- Select Course --</option>
+                    @foreach($courses as $course)
+                        <option value="{{ $course->id }}" 
+                        {{ (old('lead_id') ?? $batch->course_id) == $course->id ? 'selected' : '' }}>
+                        {{ $course->title }}
+                        </option>
+                    @endforeach
+                    </select>
+                    @error('course_id') <small class="text-danger">{{ $message }}</small> @enderror
+                </div>
+
+                <div class="mb-3">
                     <label class="form-label fw-semibold">Title *</label>
                     <input type="text" name="title" class="form-control" value="{{ old('title', $batch->title) }}">
                     @error('title') <small class="text-danger">{{ $message }}</small> @enderror

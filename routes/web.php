@@ -15,10 +15,13 @@ use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\AnalyticsController;
 use App\Http\Controllers\ClassroomController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\MetaResultController;
+use App\Http\Controllers\BatchStudentController;
 use App\Http\Controllers\ClassSessionController;
 use App\Http\Controllers\OrganisationController;
 use App\Http\Controllers\LeadsTrialStatController;
+use App\Http\Controllers\LeadsAttendanceController;
 use App\Http\Controllers\MarketingSourceController;
 use App\Http\Controllers\CrmPipelineStageController;
 use App\Http\Controllers\LeadConversionStatController;
@@ -74,14 +77,32 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('leads', LeadController::class);
 
+    Route::resource('department', DepartmentController::class);
+
     Route::resource('lead_conversion_stats', LeadConversionStatController::class);
 
-    Route::resource('trial', LeadsTrialStatController::class);
+    // Custom route for creating trial for a specific lead
+    Route::get('/leads_trial/create/{lead_id}', [LeadsTrialStatController::class, 'create'])->name('leads_trial.create');
+
+    // Resource route for full CRUD except create
+    Route::resource('leads_trial', LeadsTrialStatController::class)->except(['create']);
 
 
+    // Step 1: Mark Attendance (Select date → Load → Save)
+    Route::get('leads_attendance/mark', [LeadsAttendanceController::class, 'mark'])
+    ->name('leads_attendance.mark');
+
+    Route::post('leads_attendance/store', [LeadsAttendanceController::class, 'store'])
+    ->name('leads_attendance.store');
+
+    // Step 2: Attendance History (Search by date range)
+    Route::get('leads_attendance', [LeadsAttendanceController::class, 'index'])
+    ->name('leads_attendance.index');
+
+    Route::resource('batch_students', BatchStudentController::class);
 
 
-Route::get('analytics.funnel_conversion', [AnalyticsController::class, 'index'])->name('analytics.funnel_conversion');
+    Route::get('analytics.funnel_conversion', [AnalyticsController::class, 'index'])->name('analytics.funnel_conversion');
 
 });
 

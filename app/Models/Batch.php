@@ -11,4 +11,9 @@ class Batch extends Model
     // public function organisation() {
     //     return $this->belongsTo(Organisation::class);
     // }
+
+
+    public function course() {
+        return $this->belongsTo(Course::class, 'course_id');
+    }
 }
