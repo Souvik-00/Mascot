@@ -3,13 +3,16 @@
 
         {{-- Header --}}
         <div class="d-flex justify-content-between align-items-center mb-3">
-            <h4 class="fw-bold">Assign Student to Batch</h4>
-            <a href="{{ route('batch_students.index') }}" class="btn btn-secondary">
+            <h4 class="fw-bold">Assign Lead to Batch</h4>
+            <a href="{{ route('batch_leads.index') }}" class="btn btn-secondary">
                 <i class="bi bi-arrow-left"></i> Back
             </a>
         </div>
 
-        {{-- Validation + Flash Messages --}}
+        {{-- Flash & Validation Messages --}}
+        @if (session('success'))
+            <div class="alert alert-success">{{ session('success') }}</div>
+        @endif
         @if (session('error'))
             <div class="alert alert-danger">{{ session('error') }}</div>
         @endif
@@ -26,13 +29,14 @@
         {{-- Create Form --}}
         <div class="card shadow-sm">
             <div class="card-body">
-                <form action="{{ route('batch_students.store') }}" method="POST">
+                <form action="{{ route('batch_leads.store') }}" method="POST">
                     @csrf
 
                     <div class="row mb-3">
+                        {{-- Batch Dropdown --}}
                         <div class="col-md-6">
                             <label class="form-label">Select Batch</label>
-                            <select name="batches_id" class="form-select" required>
+                            <select name="batch_id" class="form-select" required>
                                 <option value="">-- Choose Batch --</option>
                                 @foreach($batches as $batch)
                                     <option value="{{ $batch->id }}">{{ $batch->title }}</option>
@@ -40,14 +44,13 @@
                             </select>
                         </div>
 
+                        {{-- Lead Dropdown --}}
                         <div class="col-md-6">
-                            <label class="form-label">Select Student</label>
-                            <select name="student_id" class="form-select" required>
-                                <option value="">-- Choose Student --</option>
-                                @foreach($students as $student)
-                                    <option value="{{ $student->id }}">
-                                    {{ $student->first_name }} {{ $student->middle_name }} {{ $student->last_name }} ({{ $student->email }})
-                                    </option>
+                            <label class="form-label">Select Lead</label>
+                            <select name="lead_id" class="form-select" required>
+                                <option value="">-- Choose Lead --</option>
+                                @foreach($leads as $lead)
+                                    <option value="{{ $lead->id }}">{{ $lead->name }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -56,7 +59,7 @@
                     <button type="submit" class="btn btn-primary">
                         <i class="bi bi-person-plus"></i> Assign
                     </button>
-                    <a href="{{ route('batch_students.index') }}" class="btn btn-outline-secondary">
+                    <a href="{{ route('batch_leads.index') }}" class="btn btn-outline-secondary">
                         Cancel
                     </a>
                 </form>

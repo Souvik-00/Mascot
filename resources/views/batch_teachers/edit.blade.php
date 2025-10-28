@@ -3,13 +3,16 @@
 
         {{-- Header --}}
         <div class="d-flex justify-content-between align-items-center mb-3">
-            <h4 class="fw-bold">Edit Student Assignment</h4>
-            <a href="{{ route('batch_students.index') }}" class="btn btn-secondary">
+            <h4 class="fw-bold">Edit Teacher Assignment</h4>
+            <a href="{{ route('batch_teachers.index') }}" class="btn btn-secondary">
                 <i class="bi bi-arrow-left"></i> Back
             </a>
         </div>
 
-        {{-- Flash + Validation --}}
+        {{-- Flash & Validation Messages --}}
+        @if (session('success'))
+            <div class="alert alert-success">{{ session('success') }}</div>
+        @endif
         @if (session('error'))
             <div class="alert alert-danger">{{ session('error') }}</div>
         @endif
@@ -23,10 +26,10 @@
             </div>
         @endif
 
-        {{-- Edit Form --}}
+        {{-- Form --}}
         <div class="card shadow-sm">
             <div class="card-body">
-                <form action="{{ route('batch_students.update', $assignment->id) }}" method="POST">
+                <form action="{{ route('batch_teachers.update', $assignment->id) }}" method="POST">
                     @csrf
                     @method('PUT')
 
@@ -45,15 +48,16 @@
                             </select>
                         </div>
 
-                        {{-- Student Dropdown --}}
+                        {{-- Teacher Dropdown --}}
                         <div class="col-md-6">
-                            <label class="form-label">Select Student</label>
-                            <select name="student_id" class="form-select" required>
-                                <option value="">-- Choose Student --</option>
-                                @foreach($students as $student)
-                                    <option value="{{ $student->id }}" 
-                                        {{ $assignment->student_id == $student->id ? 'selected' : '' }}>
-                                        {{ $student->first_name }} {{ $student->middle_name }} {{ $student->last_name }} ({{ $student->email }})
+                            <label class="form-label">Select Teacher</label>
+                            <select name="teacher_id" class="form-select" required>
+                                <option value="">-- Choose Teacher --</option>
+                                @foreach($teachers as $teacher)
+                                    <option value="{{ $teacher->id }}" 
+                                        {{ $assignment->teacher_id == $teacher->id ? 'selected' : '' }}>
+                                        {{ trim("{$teacher->first_name} {$teacher->middle_name} {$teacher->last_name}") }}
+                                        ({{ $teacher->email }})
                                     </option>
                                 @endforeach
                             </select>
@@ -63,7 +67,7 @@
                     <button type="submit" class="btn btn-success">
                         <i class="bi bi-save"></i> Update
                     </button>
-                    <a href="{{ route('batch_students.index') }}" class="btn btn-outline-secondary">
+                    <a href="{{ route('batch_teachers.index') }}" class="btn btn-outline-secondary">
                         Cancel
                     </a>
                 </form>

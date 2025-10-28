@@ -3,9 +3,9 @@
 
         {{-- Header --}}
         <div class="d-flex justify-content-between align-items-center mb-3">
-            <h4 class="fw-bold">Batch–Student Assignments</h4>
-            <a href="{{ route('batch_students.create') }}" class="btn btn-primary">
-                <i class="bi bi-person-plus"></i> Add Student
+            <h4 class="fw-bold">Batch–Lead Assignments</h4>
+            <a href="{{ route('batch_leads.create') }}" class="btn btn-primary">
+                <i class="bi bi-person-plus"></i> Add Lead
             </a>
         </div>
 
@@ -17,7 +17,7 @@
             <div class="alert alert-danger">{{ session('error') }}</div>
         @endif
 
-        {{-- Assignment List --}}
+        {{-- Table --}}
         <div class="card shadow-sm">
             <div class="card-body">
                 @if ($assignments->count())
@@ -26,8 +26,7 @@
                             <tr>
                                 <th>#</th>
                                 <th>Batch</th>
-                                <th>Student</th>
-                                <th>Email</th>
+                                <th>Lead Name</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -35,29 +34,26 @@
                             @foreach ($assignments as $index => $item)
                                 <tr>
                                     <td>{{ $index + 1 }}</td>
-                                    <td>{{ $item->batch->title }}</td>
-                                    <td>{{ $item->student->first_name }} {{$item->student->middle_name}} {{$item->student->last_name}}</td>
-                                    <td>{{ $item->student->email }}</td>
+                                    <td>{{ $item->batch->title ?? '—' }}</td>
+                                    <td>{{ $item->lead->name ?? '—' }}</td>
                                     <td class="text-center">
                                         <div class="d-flex justify-content-center align-items-center gap-2">
-
-                                            {{-- Edit Button --}}
-                                            <a href="{{ route('batch_students.edit', $item->id) }}" class="btn btn-sm btn-warning">
+                                            {{-- Edit --}}
+                                            <a href="{{ route('batch_leads.edit', $item->id) }}" class="btn btn-sm btn-warning">
                                                 <i class="bi bi-pencil"></i> Edit
                                             </a>
 
-                                            {{-- Delete Form --}}
-                                            <form action="{{ route('batch_students.destroy', $item->id) }}"
-                                                method="POST"
-                                                onsubmit="return confirm('Remove this student from batch?');"
-                                                class="d-inline">
+                                            {{-- Delete --}}
+                                            <form action="{{ route('batch_leads.destroy', $item->id) }}"
+                                                  method="POST"
+                                                  onsubmit="return confirm('Remove this lead from batch?');"
+                                                  class="d-inline">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="btn btn-sm btn-danger">
                                                     <i class="bi bi-trash"></i> Delete
                                                 </button>
                                             </form>
-
                                         </div>
                                     </td>
                                 </tr>
@@ -65,7 +61,7 @@
                         </tbody>
                     </table>
                 @else
-                    <p class="text-muted mb-0">No assignments found.</p>
+                    <p class="text-muted mb-0">No lead assignments found.</p>
                 @endif
             </div>
         </div>

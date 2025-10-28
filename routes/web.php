@@ -13,11 +13,13 @@ use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\AnalyticsController;
+use App\Http\Controllers\BatchLeadController;
 use App\Http\Controllers\ClassroomController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\MetaResultController;
 use App\Http\Controllers\BatchStudentController;
+use App\Http\Controllers\BatchTeacherController;
 use App\Http\Controllers\ClassSessionController;
 use App\Http\Controllers\OrganisationController;
 use App\Http\Controllers\LeadsTrialStatController;
@@ -100,6 +102,11 @@ Route::middleware('auth')->group(function () {
     ->name('leads_attendance.index');
 
     Route::resource('batch_students', BatchStudentController::class);
+
+    Route::resource('batch_teachers', BatchTeacherController::class);
+
+    Route::resource('batch_leads', BatchLeadController::class);
+
 
 
     Route::get('analytics.funnel_conversion', [AnalyticsController::class, 'index'])->name('analytics.funnel_conversion');

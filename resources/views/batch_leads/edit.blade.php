@@ -3,13 +3,16 @@
 
         {{-- Header --}}
         <div class="d-flex justify-content-between align-items-center mb-3">
-            <h4 class="fw-bold">Edit Student Assignment</h4>
-            <a href="{{ route('batch_students.index') }}" class="btn btn-secondary">
+            <h4 class="fw-bold">Edit Lead Assignment</h4>
+            <a href="{{ route('batch_leads.index') }}" class="btn btn-secondary">
                 <i class="bi bi-arrow-left"></i> Back
             </a>
         </div>
 
-        {{-- Flash + Validation --}}
+        {{-- Flash & Validation Messages --}}
+        @if (session('success'))
+            <div class="alert alert-success">{{ session('success') }}</div>
+        @endif
         @if (session('error'))
             <div class="alert alert-danger">{{ session('error') }}</div>
         @endif
@@ -26,7 +29,7 @@
         {{-- Edit Form --}}
         <div class="card shadow-sm">
             <div class="card-body">
-                <form action="{{ route('batch_students.update', $assignment->id) }}" method="POST">
+                <form action="{{ route('batch_leads.update', $assignment->id) }}" method="POST">
                     @csrf
                     @method('PUT')
 
@@ -34,26 +37,26 @@
                         {{-- Batch Dropdown --}}
                         <div class="col-md-6">
                             <label class="form-label">Select Batch</label>
-                            <select name="batches_id" class="form-select" required>
+                            <select name="batch_id" class="form-select" required>
                                 <option value="">-- Choose Batch --</option>
                                 @foreach($batches as $batch)
-                                    <option value="{{ $batch->id }}" 
-                                        {{ $assignment->batches_id == $batch->id ? 'selected' : '' }}>
+                                    <option value="{{ $batch->id }}"
+                                        {{ $assignment->batch_id == $batch->id ? 'selected' : '' }}>
                                         {{ $batch->title }}
                                     </option>
                                 @endforeach
                             </select>
                         </div>
 
-                        {{-- Student Dropdown --}}
+                        {{-- Lead Dropdown --}}
                         <div class="col-md-6">
-                            <label class="form-label">Select Student</label>
-                            <select name="student_id" class="form-select" required>
-                                <option value="">-- Choose Student --</option>
-                                @foreach($students as $student)
-                                    <option value="{{ $student->id }}" 
-                                        {{ $assignment->student_id == $student->id ? 'selected' : '' }}>
-                                        {{ $student->first_name }} {{ $student->middle_name }} {{ $student->last_name }} ({{ $student->email }})
+                            <label class="form-label">Select Lead</label>
+                            <select name="lead_id" class="form-select" required>
+                                <option value="">-- Choose Lead --</option>
+                                @foreach($leads as $lead)
+                                    <option value="{{ $lead->id }}"
+                                        {{ $assignment->lead_id == $lead->id ? 'selected' : '' }}>
+                                        {{ $lead->name }}
                                     </option>
                                 @endforeach
                             </select>
@@ -63,7 +66,7 @@
                     <button type="submit" class="btn btn-success">
                         <i class="bi bi-save"></i> Update
                     </button>
-                    <a href="{{ route('batch_students.index') }}" class="btn btn-outline-secondary">
+                    <a href="{{ route('batch_leads.index') }}" class="btn btn-outline-secondary">
                         Cancel
                     </a>
                 </form>

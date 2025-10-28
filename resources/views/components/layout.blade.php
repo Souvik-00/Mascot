@@ -174,6 +174,7 @@
         <div class="collapse {{ request()->is('teachers*') ? 'show' : '' }}" id="teachersMenu">
             <a href="{{ route('teachers.index') }}">📋 List</a>
             <a href="{{ route('teachers.search') }}">🔍 Search</a>
+            <a href="{{route('batch_teachers.index')}}">🔍 Teacher Batch</a>
         </div>
 
         <!-- ACADEMICS -->
@@ -336,7 +337,8 @@
                         <div class="ms-3">
                             <a href="{{ route('leads.index') }}">🎯 Leads</a>
                             <a href="{{ route('lead_conversion_stats.index') }}">📑 Lead Conversion Stats</a>
-                            <a href="{{route('leads_attendance.mark')}}">☎️ Lead Attendance</a>
+                            <a href="{{route('batch_leads.index')}}">📑 Batch Lead</a>
+                            <a href="#">☎️ Lead Attendance</a>
                         </div>
                     </div>
 
@@ -378,7 +380,7 @@
         <div class="collapse" id="helpMenu">
             <a href="{{ route('students.index') }}">📘 Show Current Students</a>
             <a href="{{route('leads_trial.index')}}">☎️ Trial Class Enrollment</a> <!--By date -->
-            <a href="{{route('leads_attendance.index')}}">☎️ View Lead Attendance</a> <!--By date -->
+            <a href="">☎️ View Lead Attendance</a> <!--By date -->
             <a href="#">☎️ Payments By Students</a> <!--By date -->
             <a href="#">☎️ Dues By Students</a>
             <a href="#">☎️ Expense By Category</a> <!--By date -->

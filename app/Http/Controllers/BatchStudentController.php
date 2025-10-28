@@ -2,127 +2,111 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\BatchStudent;
 use App\Models\Batch;
 use App\Models\User;
-use App\Models\BatchStudent;
 use Illuminate\Http\Request;
 
 class BatchStudentController extends Controller
 {
     /**
-     * Display assigned students + add form on same page.
+     * Display a listing of all batch–student assignments.
      */
-    public function index($batch_id)
+    public function index()
     {
-        $batch = Batch::findOrFail($batch_id);
+        $assignments = BatchStudent::with(['batch', 'student'])->latest()->get();
 
-        // Students already assigned to this batch
-        $assignedStudents = BatchStudent::with('student')
-            ->where('batches_id', $batch_id)
-            ->get();
-
-        // All students available for assignment
-        $students = User::where('profile', 'student')
-            ->orderBy('first_name')
-            ->get(['id', 'first_name', 'last_name']);
-
-        return view('batch_students.index', compact('batch', 'assignedStudents', 'students'));
+        return view('batch_students.index', compact('assignments'));
     }
 
     /**
-     * Show Create Form (separate page).
+     * Show the form for creating a new assignment.
      */
-    public function create($batch_id)
+    public function create()
     {
-        $batch = Batch::findOrFail($batch_id);
+        $batches = Batch::orderBy('title')->get();
+        $students = User::where('profile', 'student')->orderBy('first_name')->get();
 
-        $students = User::where('profile', 'student')
-            ->orderBy('first_name')
-            ->get(['id', 'first_name', 'last_name']);
-
-        return view('batch_students.create', compact('batch', 'students'));
+        return view('batch_students.create', compact('batches', 'students'));
     }
 
     /**
-     * Store a new student assignment.
+     * Store a newly created assignment in the database.
      */
-    public function store(Request $request, $batch_id)
+    public function store(Request $request)
     {
         $request->validate([
+            'batches_id' => 'required|exists:batches,id',
             'student_id' => 'required|exists:users,id',
         ]);
 
-        // Prevent duplicate assignment
-        $exists = BatchStudent::where('batches_id', $batch_id)
-                    ->where('student_id', $request->student_id)
-                    ->exists();
+        // prevent duplicate
+        $exists = BatchStudent::where('batches_id', $request->batches_id)
+            ->where('student_id', $request->student_id)
+            ->exists();
 
         if ($exists) {
-            return back()->with('error', 'This student is already assigned to this batch.');
+            return redirect()->back()->with('error', 'Student is already assigned to this batch.');
         }
 
         BatchStudent::create([
-            'batches_id' => $batch_id,
+            'batches_id' => $request->batches_id,
             'student_id' => $request->student_id,
         ]);
 
-        return redirect()->route('batch.students.index', $batch_id)
-                ->with('success', 'Student added to batch successfully.');
+        return redirect()->route('batch_students.index')->with('success', 'Student successfully assigned to batch.');
     }
 
     /**
-     * Show Edit Form to change assigned student.
+     * Show the form for editing an existing assignment.
      */
-    public function edit($batch_id, $id)
+    public function edit($id)
     {
-        $batch = Batch::findOrFail($batch_id);
-        $batchStudent = BatchStudent::findOrFail($id);
+        $assignment = BatchStudent::findOrFail($id);
+        $batches = Batch::orderBy('title')->get();
+        $students = User::where('profile', 'student')->orderBy('first_name')->get();
 
-        $students = User::where('profile', 'student')
-            ->orderBy('first_name')
-            ->get(['id', 'first_name', 'last_name']);
-
-        return view('batch_students.edit', compact('batch', 'batchStudent', 'students'));
+        return view('batch_students.edit', compact('assignment', 'batches', 'students'));
     }
 
     /**
-     * Update assigned student record.
+     * Update the specified assignment in the database.
      */
-    public function update(Request $request, $batch_id, $id)
+    public function update(Request $request, $id)
     {
         $request->validate([
+            'batches_id' => 'required|exists:batches,id',
             'student_id' => 'required|exists:users,id',
         ]);
 
-        $batchStudent = BatchStudent::findOrFail($id);
+        $assignment = BatchStudent::findOrFail($id);
 
-        // Prevent duplicate assignment
-        $exists = BatchStudent::where('batches_id', $batch_id)
-                    ->where('student_id', $request->student_id)
-                    ->where('id', '!=', $id)
-                    ->exists();
+        // prevent duplicate
+        $exists = BatchStudent::where('batches_id', $request->batches_id)
+            ->where('student_id', $request->student_id)
+            ->where('id', '!=', $id)
+            ->exists();
 
         if ($exists) {
-            return back()->with('error', 'This student is already assigned to this batch.');
+            return redirect()->back()->with('error', 'This student is already assigned to that batch.');
         }
 
-        $batchStudent->update([
+        $assignment->update([
+            'batches_id' => $request->batches_id,
             'student_id' => $request->student_id,
         ]);
 
-        return redirect()->route('batch.students.index', $batch_id)
-                ->with('success', 'Student updated successfully.');
+        return redirect()->route('batch_students.index')->with('success', 'Assignment updated successfully.');
     }
 
     /**
-     * Remove student from batch.
+     * Remove the specified assignment from storage.
      */
-    public function destroy($batch_id, $student_id)
+    public function destroy($id)
     {
-        BatchStudent::where('batches_id', $batch_id)
-            ->where('student_id', $student_id)
-            ->delete();
+        $assignment = BatchStudent::findOrFail($id);
+        $assignment->delete();
 
-        return back()->with('success', 'Student removed from batch.');
+        return redirect()->back()->with('success', 'Assignment removed successfully.');
     }
 }
