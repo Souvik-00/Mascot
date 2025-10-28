@@ -165,6 +165,7 @@
             <a href="{{ route('students.index') }}">📋 List</a>
             <a href="{{ route('students.search') }}">🔍 Search</a>
             <a href="{{route('batch_students.index')}}">🔍 Student Batch</a>
+            <a href="{{route('student_attendance.create')}}">🔍 Student Attendance</a>
         </div>
 
         <button class="btn" data-bs-toggle="collapse" data-bs-target="#teachersMenu">
@@ -175,6 +176,7 @@
             <a href="{{ route('teachers.index') }}">📋 List</a>
             <a href="{{ route('teachers.search') }}">🔍 Search</a>
             <a href="{{route('batch_teachers.index')}}">🔍 Teacher Batch</a>
+            <a href="{{route('teacher_attendance.create')}}">🔍 Teacher Attendance</a>
         </div>
 
         <!-- ACADEMICS -->
@@ -338,7 +340,7 @@
                             <a href="{{ route('leads.index') }}">🎯 Leads</a>
                             <a href="{{ route('lead_conversion_stats.index') }}">📑 Lead Conversion Stats</a>
                             <a href="{{route('batch_leads.index')}}">📑 Batch Lead</a>
-                            <a href="#">☎️ Lead Attendance</a>
+                            <a href="{{route('lead_attendance.create')}}">☎️ Lead Attendance</a>
                         </div>
                     </div>
 
@@ -380,7 +382,9 @@
         <div class="collapse" id="helpMenu">
             <a href="{{ route('students.index') }}">📘 Show Current Students</a>
             <a href="{{route('leads_trial.index')}}">☎️ Trial Class Enrollment</a> <!--By date -->
-            <a href="">☎️ View Lead Attendance</a> <!--By date -->
+            <a href="{{route('lead_attendance.index')}}">☎️ View Lead Attendance</a> <!--By date -->
+            <a href="{{route('student_attendance.index')}}">🔍 View Student Attendance</a>
+            <a href="{{route('teacher_attendance.index')}}">🔍 View Teacher Attendance</a>
             <a href="#">☎️ Payments By Students</a> <!--By date -->
             <a href="#">☎️ Dues By Students</a>
             <a href="#">☎️ Expense By Category</a> <!--By date -->

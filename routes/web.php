@@ -22,10 +22,13 @@ use App\Http\Controllers\BatchStudentController;
 use App\Http\Controllers\BatchTeacherController;
 use App\Http\Controllers\ClassSessionController;
 use App\Http\Controllers\OrganisationController;
+use App\Http\Controllers\LeadAttendanceController;
 use App\Http\Controllers\LeadsTrialStatController;
 use App\Http\Controllers\LeadsAttendanceController;
 use App\Http\Controllers\MarketingSourceController;
 use App\Http\Controllers\CrmPipelineStageController;
+use App\Http\Controllers\StudentAttendanceController;
+use App\Http\Controllers\TeacherAttendanceController;
 use App\Http\Controllers\LeadConversionStatController;
 
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
@@ -89,23 +92,27 @@ Route::middleware('auth')->group(function () {
     // Resource route for full CRUD except create
     Route::resource('leads_trial', LeadsTrialStatController::class)->except(['create']);
 
-
-    // Step 1: Mark Attendance (Select date → Load → Save)
-    Route::get('leads_attendance/mark', [LeadsAttendanceController::class, 'mark'])
-    ->name('leads_attendance.mark');
-
-    Route::post('leads_attendance/store', [LeadsAttendanceController::class, 'store'])
-    ->name('leads_attendance.store');
-
-    // Step 2: Attendance History (Search by date range)
-    Route::get('leads_attendance', [LeadsAttendanceController::class, 'index'])
-    ->name('leads_attendance.index');
-
     Route::resource('batch_students', BatchStudentController::class);
 
     Route::resource('batch_teachers', BatchTeacherController::class);
 
     Route::resource('batch_leads', BatchLeadController::class);
+
+    Route::get('lead-attendance/get-leads/{batch_id}', [LeadAttendanceController::class, 'getLeadsByBatch']);
+    Route::get('lead-attendance/edit', [LeadAttendanceController::class, 'edit'])->name('lead_attendance.edit');
+    Route::put('lead-attendance/update', [LeadAttendanceController::class, 'update'])->name('lead_attendance.update');
+
+    Route::resource('lead_attendance', LeadAttendanceController::class);
+
+    Route::get('student-attendance/get-students/{batch_id}', [StudentAttendanceController::class, 'getStudentsByBatch']);
+    Route::get('student_attendance/edit', [StudentAttendanceController::class, 'edit'])->name('student_attendance.edit');
+    Route::get('student_attendance/update', [StudentAttendanceController::class, 'update'])->name('student_attendance.update');
+    Route::resource('student_attendance', StudentAttendanceController::class);
+
+    Route::get('teacher-attendance/get-teachers/{batch_id}', [TeacherAttendanceController::class, 'getTeachersByBatch']);
+     Route::get('teacher_attendance/edit', [TeacherAttendanceController::class, 'edit'])->name('teacher_attendance.edit');
+    Route::get('teacher_attendance/update', [TeacherAttendanceController::class, 'update'])->name('teacher_attendance.update');
+    Route::resource('teacher_attendance', TeacherAttendanceController::class);
 
 
 
