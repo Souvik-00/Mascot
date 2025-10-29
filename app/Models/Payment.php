@@ -6,21 +6,18 @@ use Illuminate\Database\Eloquent\Model;
 
 class Payment extends Model
 {
+     protected $table = 'payments';
+
     protected $guarded = [];
 
-
-     public function organisation()
-    {
-        return $this->belongsTo(Organisation::class);
-    }
-
+    // 🔗 Relationships
     public function student()
     {
-        return $this->belongsTo(Student::class);
+        return $this->belongsTo(User::class, 'student_id');
     }
 
     public function batch()
     {
-        return $this->belongsTo(Batch::class);
+        return $this->belongsTo(Batch::class, 'batch_id');
     }
 }

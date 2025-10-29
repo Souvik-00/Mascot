@@ -164,7 +164,7 @@
         <div class="collapse {{ request()->is('students*') ? 'show' : '' }}" id="studentsMenu">
             <a href="{{ route('students.index') }}">📋 List</a>
             <a href="{{ route('students.search') }}">🔍 Search</a>
-            <a href="{{route('batch_students.index')}}">🔍 Student Batch</a>
+            <a href="{{route('batch_students.index')}}">🔍 Batch Assignment</a>
             <a href="{{route('student_attendance.create')}}">🔍 Student Attendance</a>
         </div>
 
@@ -223,6 +223,14 @@
         </button>
         <div class="collapse {{ request()->is('expenses*') ? 'show' : '' }}" id="expensesMenu">
             <a href="{{ route('expenses.index') }}">📋 All Expenses</a>
+        </div>
+
+         <button class="btn" data-bs-toggle="collapse" data-bs-target="#reportsMenu">
+            <span>💰 Finance Report</span>
+            <span class="arrow">&#9656;</span>
+        </button>
+        <div class="collapse {{ request()->is('reports*') ? 'show' : '' }}" id="reportsMenu">
+            <a href="{{route('finance.reports')}}">📋 Reports</a>
         </div>
 
         <!-- ADMINISTRATION -->

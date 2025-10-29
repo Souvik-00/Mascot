@@ -2,94 +2,100 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Batch;
 use App\Models\Expense;
-use App\Models\Organisation;
+use App\Models\Batch;
 use Illuminate\Http\Request;
 
 class ExpenseController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Display a listing of the expenses.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $expenses = Expense::with(['organisation', 'batch'])->latest()->get();
-        return view('expenses.index', compact('expenses'));
+        $batches = Batch::orderBy('title')->get();
+
+        $query = Expense::with('batch');
+
+        if ($request->filled('batch_id')) {
+            $query->where('batch_id', $request->batch_id);
+        }
+
+        if ($request->filled('from_date') && $request->filled('to_date')) {
+            $query->whereBetween('expense_date', [$request->from_date, $request->to_date]);
+        } elseif ($request->filled('from_date')) {
+            $query->whereDate('expense_date', '>=', $request->from_date);
+        } elseif ($request->filled('to_date')) {
+            $query->whereDate('expense_date', '<=', $request->to_date);
+        }
+
+        $expenses = $query->orderBy('expense_date', 'desc')->paginate(10);
+
+        return view('expenses.index', compact('expenses', 'batches'));
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Show the form for creating a new expense.
      */
     public function create()
     {
-        $organisations = Organisation::all();
-        $batches = Batch::all();
-        return view('expenses.create', compact('organisations', 'batches'));
+        $batches = Batch::orderBy('title')->get();
+        return view('expenses.create', compact('batches'));
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created expense in storage.
      */
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'organisation_id' => 'required|exists:organisations,id',
+        $request->validate([
             'batch_id' => 'nullable|exists:batches,id',
-            'category' => 'required|string|max:100',
+            'category' => 'required|string|max:255',
             'amount' => 'required|numeric|min:0',
             'expense_date' => 'required|date',
-            'payment_method' => 'nullable|string|max:50',
+            'payment_method' => 'nullable|string|max:255',
             'notes' => 'nullable|string',
         ]);
 
-        Expense::create($validated);
-        return redirect()->route('expenses.index')->with('success', 'Expense added successfully!');
+        Expense::create($request->all());
+
+        return redirect()->route('expenses.index')->with('success', 'Expense added successfully.');
     }
 
     /**
-     * Display the specified resource.
-     */
-    public function show(Expense $expense)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
+     * Show the form for editing the specified expense.
      */
     public function edit(Expense $expense)
     {
-        $organisations = Organisation::all();
-        $batches = Batch::all();
-        return view('expenses.edit', compact('expense', 'organisations', 'batches'));
+        $batches = Batch::orderBy('title')->get();
+        return view('expenses.edit', compact('expense', 'batches'));
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update the specified expense in storage.
      */
     public function update(Request $request, Expense $expense)
     {
-        $validated = $request->validate([
-            'organisation_id' => 'required|exists:organisations,id',
+        $request->validate([
             'batch_id' => 'nullable|exists:batches,id',
-            'category' => 'required|string|max:100',
+            'category' => 'required|string|max:255',
             'amount' => 'required|numeric|min:0',
             'expense_date' => 'required|date',
-            'payment_method' => 'nullable|string|max:50',
+            'payment_method' => 'nullable|string|max:255',
             'notes' => 'nullable|string',
         ]);
 
-        $expense->update($validated);
-        return redirect()->route('expenses.index')->with('success', 'Expense updated successfully!');
+        $expense->update($request->all());
+
+        return redirect()->route('expenses.index')->with('success', 'Expense updated successfully.');
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remove the specified expense from storage.
      */
     public function destroy(Expense $expense)
     {
         $expense->delete();
-        return redirect()->route('expenses.index')->with('success', 'Expense deleted successfully!');
+        return redirect()->route('expenses.index')->with('success', 'Expense deleted successfully.');
     }
 }

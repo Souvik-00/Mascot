@@ -15,9 +15,9 @@ class LeadAttendanceController extends Controller
      */
     public function index(Request $request)
     {
-            $batches = Batch::orderBy('title')->get();
+        $batches = Batch::orderBy('title')->get();
 
-    $query = LeadAttendance::with(['lead', 'batch']);
+        $query = LeadAttendance::with(['lead', 'batch']);
 
     if ($request->filled('batch_id')) {
         $query->where('batch_id', $request->batch_id);

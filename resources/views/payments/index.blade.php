@@ -1,40 +1,100 @@
 <x-layout>
-    <div class="d-flex justify-content-between align-items-center mb-3">
-        <h3>Payments</h3>
-        <a href="{{ route('payments.create') }}" class="btn btn-primary">Add Payment</a>
+    <div class="container mt-4">
+        <h4 class="fw-bold mb-3">Payment Records</h4>
+
+        {{-- ✅ Search Filter --}}
+        <form method="GET" class="row g-3 mb-3">
+            <div class="col-md-3">
+                <label class="form-label">Batch</label>
+                <select name="batch_id" class="form-select">
+                    <option value="">-- All Batches --</option>
+                    @foreach($batches as $batch)
+                        <option value="{{ $batch->id }}" {{ request('batch_id') == $batch->id ? 'selected' : '' }}>
+                            {{ $batch->title }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+
+            <div class="col-md-3">
+                <label class="form-label">From Date</label>
+                <input type="date" name="from_date" value="{{ request('from_date') }}" class="form-control">
+            </div>
+
+            <div class="col-md-3">
+                <label class="form-label">To Date</label>
+                <input type="date" name="to_date" value="{{ request('to_date') }}" class="form-control">
+            </div>
+
+            <div class="col-md-3 d-flex align-items-end">
+                <button class="btn btn-primary w-100">
+                    <i class="bi bi-search"></i> Search
+                </button>
+            </div>
+        </form>
+
+        @if(session('success'))
+            <div class="alert alert-success">{{ session('success') }}</div>
+        @endif
+
+        {{-- ✅ Add Button --}}
+        <div class="d-flex justify-content-end mb-3">
+            <a href="{{ route('payments.create') }}" class="btn btn-success">
+                <i class="bi bi-plus-circle"></i> Add Payment
+            </a>
+        </div>
+
+        {{-- ✅ Payments Table --}}
+        <div class="card shadow-sm">
+            <div class="card-body">
+                @if($payments->count())
+                    <table class="table table-bordered align-middle">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Date</th>
+                                <th>Student</th>
+                                <th>Batch</th>
+                                <th>Amount (₹)</th>
+                                <th>Method</th>
+                                <th>Transaction ID</th>
+                                <th>Notes</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($payments as $item)
+                                <tr>
+                                    <td>{{ $item->payment_date }}</td>
+                                    <td>{{ $item->student->first_name ?? '' }} {{ $item->student->last_name ?? '' }}</td>
+                                    <td>{{ $item->batch->title ?? '—' }}</td>
+                                    <td>{{ number_format($item->amount, 2) }}</td>
+                                    <td>{{ $item->payment_method ?? '—' }}</td>
+                                    <td>{{ $item->transaction_id ?? '—' }}</td>
+                                    <td>{{ $item->notes ?? '—' }}</td>
+                                    <td class="d-flex">
+                                        <a href="{{ route('payments.edit', $item->id) }}" class="btn btn-sm btn-warning me-1">
+                                            <i class="bi bi-pencil"></i>
+                                        </a>
+                                        <form action="{{ route('payments.destroy', $item->id) }}" method="POST" onsubmit="return confirm('Delete this payment?')">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button class="btn btn-sm btn-danger">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+
+                    <div class="mt-3">
+                        {{ $payments->links() }}
+                    </div>
+                @else
+                    <p class="text-muted mb-0">No payment records found.</p>
+                @endif
+            </div>
+        </div>
     </div>
-
-    @if(session('success'))
-        <div class="alert alert-success">{{ session('success') }}</div>
-    @endif
-
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                <th>ID</th><th>Student</th><th>Batch</th><th>Amount</th><th>Method</th><th>Date</th><th>Transaction ID</th><th>Action</th>
-            </tr>
-        </thead>
-        <tbody>
-            @forelse ($payments as $payment)
-                <tr>
-                    <td>{{ $payment->id }}</td>
-                    <td>{{ $payment->student?->name }}</td>
-                    <td>{{ $payment->batch?->name }}</td>
-                    <td>₹{{ number_format($payment->amount, 2) }}</td>
-                    <td>{{ $payment->payment_method ?? 'N/A' }}</td>
-                    <td>{{ $payment->payment_date }}</td>
-                    <td>{{ $payment->transaction_id ?? '-' }}</td>
-                    <td>
-                        <a href="{{ route('payments.edit', $payment->id) }}" class="btn btn-warning btn-sm">Edit</a>
-                        <form action="{{ route('payments.destroy', $payment->id) }}" method="POST" class="d-inline">
-                            @csrf @method('DELETE')
-                            <button class="btn btn-danger btn-sm" onclick="return confirm('Delete this payment?')">Delete</button>
-                        </form>
-                    </td>
-                </tr>
-            @empty
-                <tr><td colspan="8" class="text-center">No payments found.</td></tr>
-            @endforelse
-        </tbody>
-    </table>
 </x-layout>

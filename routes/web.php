@@ -22,6 +22,7 @@ use App\Http\Controllers\BatchStudentController;
 use App\Http\Controllers\BatchTeacherController;
 use App\Http\Controllers\ClassSessionController;
 use App\Http\Controllers\OrganisationController;
+use App\Http\Controllers\FinanceReportsController;
 use App\Http\Controllers\LeadAttendanceController;
 use App\Http\Controllers\LeadsTrialStatController;
 use App\Http\Controllers\LeadsAttendanceController;
@@ -70,6 +71,8 @@ Route::middleware('auth')->group(function () {
     
     Route::resource('schedules', ScheduleController::class);
     
+
+    // Route::get('payments/get-batches/{student}', [PaymentController::class, 'getBatchesForStudent'])->name('payments.get-batches');
     Route::resource('payments', PaymentController::class);
     
     Route::resource('expenses', ExpenseController::class);
@@ -117,6 +120,9 @@ Route::middleware('auth')->group(function () {
 
 
     Route::get('analytics.funnel_conversion', [AnalyticsController::class, 'index'])->name('analytics.funnel_conversion');
+
+
+   Route::get('/finance/reports', [FinanceReportsController::class, 'index'])->name('finance.reports');
 
 });
 

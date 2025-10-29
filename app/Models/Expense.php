@@ -6,13 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Expense extends Model
 {
+    protected $table = 'expenses';
     protected $guarded = [];
 
-
-    public function organisation()
-    {
-        return $this->belongsTo(Organisation::class);
-    }
 
     public function batch()
     {
