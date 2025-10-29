@@ -10,7 +10,7 @@
 
         {{-- Conversion Percentage --}}
         <div class="col-md-4 col-lg-4">
-            <div class="card shadow-sm border-0 text-center h-100 py-3">
+            <div class="card shadow-sm border-1 text-center h-100 py-3">
             
             @php
                 $isGood = $conversionPercentage >= 60;
@@ -33,7 +33,7 @@
     
         {{-- Mql --}}
         <div class="col-md-4 col-lg-4">
-        <div class="card shadow-sm border-0 text-center h-100 py-3">
+        <div class="card shadow-sm border-1 text-center h-100 py-3">
             @php
                 $isGood = $mqlCount >= 40;
             @endphp
@@ -52,42 +52,42 @@
     </div>
 
     <div class="col-md-4 col-lg-4">
-        <div class="card shadow-sm border-0 text-center h-100 py-3">
+        <div class="card shadow-sm border-1 text-center h-100 py-3">
             <h5 class="fw-bold mb-1"></h5>
             <p class="text-muted small mb-0">Batches</p>
         </div>
     </div>
 
     <div class="col-md-4 col-lg-4">
-        <div class="card shadow-sm border-0 text-center h-100 py-3">
+        <div class="card shadow-sm border-1 text-center h-100 py-3">
             <h5 class="fw-bold mb-1"></h5>
             <p class="text-muted small mb-0">Courses</p>
         </div>
     </div>
 
     <div class="col-md-4 col-lg-4">
-        <div class="card shadow-sm border-0 text-center h-100 py-3">
+        <div class="card shadow-sm border-1 text-center h-100 py-3">
             <h5 class="fw-bold mb-1"></h5>
             <p class="text-muted small mb-0">Total Payments</p>
         </div>
     </div>
 
     <div class="col-md-4 col-lg-4">
-        <div class="card shadow-sm border-0 text-center h-100 py-3">
+        <div class="card shadow-sm border-1 text-center h-100 py-3">
             <h5 class="fw-bold mb-1"></h5>
             <p class="text-muted small mb-0">Total Expenses</p>
         </div>
     </div>
 
     <div class="col-md-4 col-lg-4">
-        <div class="card shadow-sm border-0 text-center h-100 py-3">
+        <div class="card shadow-sm border-1 text-center h-100 py-3">
             <h5 class="fw-bold mb-1"></h5>
             <p class="text-muted small mb-0">Total Expenses</p>
         </div>
     </div>
 
     <div class="col-md-4 col-lg-4">
-        <div class="card shadow-sm border-0 text-center h-100 py-3">
+        <div class="card shadow-sm border-1 text-center h-100 py-3">
             <h5 class="fw-bold mb-1"></h5>
             <p class="text-muted small mb-0">Total Expenses</p>
         </div>
