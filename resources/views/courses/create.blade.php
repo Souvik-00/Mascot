@@ -44,10 +44,16 @@
                         <label class="form-label fw-semibold">Duration (hrs)</label>
                         <input type="number" name="duration_hours" class="form-control" value="{{ old('duration_hours') }}">
                     </div>
-                    <div class="col-md-6 mb-3">
+                <div class="col-md-6 mb-3">
                         <label class="form-label fw-semibold">Max Students</label>
                         <input type="number" name="max_students" class="form-control" value="{{ old('max_students') }}">
                     </div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Course Fee (₹)</label>
+                    <input type="number" step="0.01" name="course_fee" class="form-control"
+                    value="{{ old('course_fee')}}" placeholder="Enter course fee (optional)">
                 </div>
 
                 <div class="mb-3">

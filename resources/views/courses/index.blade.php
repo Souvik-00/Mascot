@@ -22,6 +22,7 @@
                         <th>Title</th>
                         <th>Duration (hrs)</th>
                         <th>Max Students</th>
+                        <th>Course Fee</th>
                         <th>Status</th>
                         <th class="text-center" width="160">Actions</th>
                     </tr>
@@ -35,6 +36,7 @@
                             <td>{{ $course->title }}</td>
                             <td>{{ $course->duration_hours ?? '—' }}</td>
                             <td>{{ $course->max_students ?? '—' }}</td>
+                            <td>{{$course->course_fee}}</td>
                             <td>
                                 <span class="badge bg-{{ $course->status === 'active' ? 'success' : 'secondary' }}">
                                     {{ ucfirst($course->status) }}

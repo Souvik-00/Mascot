@@ -50,6 +50,7 @@ class CourseController extends Controller
             'description' => 'nullable|string',
             'duration_hours' => 'nullable|integer|min:0',
             'max_students' => 'nullable|integer|min:1',
+            'course_fee'      => 'nullable|numeric|min:0',
             'status' => 'required|in:active,inactive',
         ], [
             'class_code.regex' => 'Class code must follow format CR-001.',
@@ -77,6 +78,7 @@ class CourseController extends Controller
             'description' => 'nullable|string',
             'duration_hours' => 'nullable|integer|min:0',
             'max_students' => 'nullable|integer|min:1',
+            'course_fee'      => 'nullable|numeric|min:0',
             'status' => 'required|in:active,inactive',
         ]);
 

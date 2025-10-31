@@ -57,6 +57,13 @@
                 </div>
 
                 <div class="mb-3">
+                    <label class="form-label fw-semibold">Course Fee (₹)</label>
+                    <input type="number" step="0.01" name="course_fee" class="form-control"
+                    value="{{ old('course_fee', $course->course_fee) }}" placeholder="Enter course fee (optional)">
+                </div>
+
+
+                <div class="mb-3">
                     <label class="form-label fw-semibold">Status *</label>
                     <select name="status" class="form-select">
                         <option value="active" {{ old('status', $course->status) === 'active' ? 'selected' : '' }}>Active</option>

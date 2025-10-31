@@ -16,20 +16,26 @@ use App\Http\Controllers\AnalyticsController;
 use App\Http\Controllers\BatchLeadController;
 use App\Http\Controllers\ClassroomController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\NetIncomeController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\MetaResultController;
 use App\Http\Controllers\BatchStudentController;
 use App\Http\Controllers\BatchTeacherController;
 use App\Http\Controllers\ClassSessionController;
 use App\Http\Controllers\OrganisationController;
+use App\Http\Controllers\ExpenseReportController;
 use App\Http\Controllers\FinanceReportsController;
 use App\Http\Controllers\LeadAttendanceController;
 use App\Http\Controllers\LeadsTrialStatController;
+use App\Http\Controllers\StudentFinanceController;
+use App\Http\Controllers\ExpenseCategoryController;
 use App\Http\Controllers\LeadsAttendanceController;
 use App\Http\Controllers\MarketingSourceController;
 use App\Http\Controllers\CrmPipelineStageController;
+use App\Http\Controllers\ExpenseDepartmentController;
 use App\Http\Controllers\StudentAttendanceController;
 use App\Http\Controllers\TeacherAttendanceController;
+use App\Http\Controllers\ExpenseSubCategoryController;
 use App\Http\Controllers\LeadConversionStatController;
 
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
@@ -75,6 +81,9 @@ Route::middleware('auth')->group(function () {
     // Route::get('payments/get-batches/{student}', [PaymentController::class, 'getBatchesForStudent'])->name('payments.get-batches');
     Route::resource('payments', PaymentController::class);
     
+
+
+    Route::get('/get-subcategories/{categoryId}', [ExpenseController::class, 'getSubcategories'])->name('expenses.getSubcategories');
     Route::resource('expenses', ExpenseController::class);
 
     Route::resource('meta_results', MetaResultController::class);
@@ -101,6 +110,10 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('batch_leads', BatchLeadController::class);
 
+    Route::resource('expense_category', ExpenseCategoryController::class);
+
+    Route::resource('expense_subcategory', ExpenseSubCategoryController::class);
+
     Route::get('lead-attendance/get-leads/{batch_id}', [LeadAttendanceController::class, 'getLeadsByBatch']);
     Route::get('lead-attendance/edit', [LeadAttendanceController::class, 'edit'])->name('lead_attendance.edit');
     Route::put('lead-attendance/update', [LeadAttendanceController::class, 'update'])->name('lead_attendance.update');
@@ -113,7 +126,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('student_attendance', StudentAttendanceController::class);
 
     Route::get('teacher-attendance/get-teachers/{batch_id}', [TeacherAttendanceController::class, 'getTeachersByBatch']);
-     Route::get('teacher_attendance/edit', [TeacherAttendanceController::class, 'edit'])->name('teacher_attendance.edit');
+    Route::get('teacher_attendance/edit', [TeacherAttendanceController::class, 'edit'])->name('teacher_attendance.edit');
     Route::get('teacher_attendance/update', [TeacherAttendanceController::class, 'update'])->name('teacher_attendance.update');
     Route::resource('teacher_attendance', TeacherAttendanceController::class);
 
@@ -123,6 +136,13 @@ Route::middleware('auth')->group(function () {
 
 
    Route::get('/finance/reports', [FinanceReportsController::class, 'index'])->name('finance.reports');
+   Route::get('/student-finance', [StudentFinanceController::class, 'index'])->name('student_finance.index');
+   
+   Route::get('/categorywise-expense', [ExpenseReportController::class, 'categoryWise'])->name('categorywise_expense.index');
+
+   Route::get('/department-expense', [ExpenseDepartmentController::class, 'index'])->name('department_expense.index');
+
+   Route::get('/net-income', [NetIncomeController::class, 'index'])->name('net_income.index');
 
 });
 

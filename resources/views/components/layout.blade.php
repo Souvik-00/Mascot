@@ -231,6 +231,19 @@
         </button>
         <div class="collapse {{ request()->is('reports*') ? 'show' : '' }}" id="reportsMenu">
             <a href="{{route('finance.reports')}}">📋 Reports</a>
+            <a href="{{route('student_finance.index')}}">📋 Students Payment Status</a>
+            <a href="{{route('categorywise_expense.index')}}">📋 Categorywise Expense</a>
+            <a href="{{route('department_expense.index')}}">📋 Expense DepartmentWise</a>
+            <a href="{{route('net_income.index')}}">📋 Net Income</a>
+        </div>
+
+        <button class="btn" data-bs-toggle="collapse" data-bs-target="#expensecatMenu">
+            <span>⚙️ Configurations</span>
+            <span class="arrow">&#9656;</span>
+        </button>
+        <div class="collapse {{ request()->is('expensecat*') ? 'show' : '' }}" id="expensecatMenu">
+            <a href="{{route('expense_category.index')}}">📋 Expense Category List</a>
+            <a href="{{route('expense_subcategory.index')}}">📋 Expense Sub-Category List</a>
         </div>
 
         <!-- ADMINISTRATION -->
