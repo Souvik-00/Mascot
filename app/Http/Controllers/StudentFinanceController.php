@@ -7,46 +7,64 @@ use Illuminate\Support\Facades\DB;
 
 class StudentFinanceController extends Controller
 {
-    /**
-     * Display the student finance report:
-     * - Total Fee
-     * - Total Paid
-     * - Pending Amount
-     * - Search by student name
-     */
     public function index(Request $request)
     {
-        $today = now()->toDateString();
         $search = $request->input('search');
 
         $query = DB::table('users as u')
-            ->join('payments as p', 'p.student_id', '=', 'u.id')
+            ->join('payments as p', 'u.id', '=', 'p.student_id')
             ->join('batches as b', 'b.id', '=', 'p.batch_id')
             ->join('courses as c', 'c.id', '=', 'b.course_id')
             ->select(
-                'u.id as student_id',
-                DB::raw("CONCAT(u.first_name, ' ', u.last_name) as student_name"),
+                DB::raw("CONCAT(u.first_name, ' ', COALESCE(u.middle_name, ''), ' ', u.last_name) AS student_name"),
                 'c.title as course_name',
                 'c.course_fee',
-                DB::raw('IFNULL(SUM(p.amount), 0) as total_paid'),
-                DB::raw('(c.course_fee - IFNULL(SUM(p.amount), 0)) as pending_amount')
+                DB::raw('SUM(p.amount) as total_paid'),
+                DB::raw('(c.course_fee - SUM(p.amount)) as pending_amount'),
+                'u.id as student_id'
             )
-            ->where('p.payment_date', '<=', $today)
-            ->groupBy('u.id', 'c.id')
-            ->orderBy('u.first_name');
+            ->where('u.profile', 'student')
+            ->groupBy('u.id', 'u.first_name', 'u.middle_name', 'u.last_name', 'c.title', 'c.course_fee');
 
-        // 🔍 Full name search (fixed)
-    if (!empty($search)) {
-        $search = trim($search);
-        $query->where(function ($q) use ($search) {
-            $q->whereRaw("CONCAT(TRIM(u.first_name), ' ', TRIM(IFNULL(u.middle_name, '')), ' ', TRIM(u.last_name)) LIKE ?", ["%{$search}%"])
-              ->orWhere('u.first_name', 'like', "%{$search}%")
-              ->orWhere('u.middle_name', 'like', "%{$search}%")
-              ->orWhere('u.last_name', 'like', "%{$search}%");
-        });
-    }
+        // 🔍 Full name search
+        if (!empty($search)) {
+            $query->whereRaw("CONCAT(u.first_name, ' ', COALESCE(u.middle_name, ''), ' ', u.last_name) LIKE ?", ["%{$search}%"]);
+        }
+
         $report = $query->get();
 
         return view('student_finance.index', compact('report', 'search'));
+    }
+
+    /**
+     * Show detailed payment history for a student
+     */
+    public function showPayments($student_id)
+    {
+        $studentPayments = DB::table('payments as p')
+            ->join('batches as b', 'b.id', '=', 'p.batch_id')
+            ->join('courses as c', 'c.id', '=', 'b.course_id')
+            ->join('users as u', 'u.id', '=', 'p.student_id')
+            ->select(
+                DB::raw("CONCAT(u.first_name, ' ', COALESCE(u.middle_name, ''), ' ', u.last_name) AS student_name"),
+                'c.title as course_name',
+                'b.title as batch_name',
+                'p.amount',
+                'p.payment_date',
+                'p.payment_method',
+                'p.transaction_id',
+                'p.notes'
+            )
+            ->where('p.student_id', $student_id)
+            ->orderBy('p.payment_date', 'desc')
+            ->get();
+
+        if ($studentPayments->isEmpty()) {
+            return redirect()->route('student_finance.index')->with('error', 'No payments found for this student.');
+        }
+
+        $studentName = $studentPayments->first()->student_name;
+
+        return view('student_finance.payments', compact('studentPayments', 'studentName'));
     }
 }

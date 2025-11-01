@@ -136,7 +136,9 @@ Route::middleware('auth')->group(function () {
 
 
    Route::get('/finance/reports', [FinanceReportsController::class, 'index'])->name('finance.reports');
+   
    Route::get('/student-finance', [StudentFinanceController::class, 'index'])->name('student_finance.index');
+   Route::get('/student-finance/{student_id}/payments', [StudentFinanceController::class, 'showPayments'])->name('student_finance.payments');
    
    Route::get('/categorywise-expense', [ExpenseReportController::class, 'categoryWise'])->name('categorywise_expense.index');
 

@@ -11,7 +11,7 @@
 
     <style>
         body {
-            background-color: #f5f7fb;
+            background-color:#ffffff;
             font-family: 'Inter', sans-serif;
             overflow-x: hidden;
         }
@@ -23,7 +23,7 @@
             position: fixed;
             left: 0;
             top: 0;
-            background-color: #ffffff;
+            background-color:  #ffffff;
             border-right: 1px solid #dee2e6;
             overflow-y: auto;
             transition: all 0.3s ease;
@@ -97,7 +97,7 @@
 
         /* ========== NAVBAR ========== */
         .navbar-custom {
-            background-color: #fff;
+            background-color: #ffffff;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
             position: fixed;
             top: 0;
@@ -396,11 +396,11 @@
          
         <!-- Reports-->
         <h6>Reports</h6>
-        <button class="btn" data-bs-toggle="collapse" data-bs-target="#helpMenu">
+        <button class="btn" data-bs-toggle="collapse" data-bs-target="#reportMenu">
             <span>🆘 Reports</span>
             <span class="arrow">&#9656;</span>
         </button>
-        <div class="collapse" id="helpMenu">
+        <div class="collapse" id="reportMenu">
             <a href="{{ route('students.index') }}">📘 Show Current Students</a>
             <a href="{{route('leads_trial.index')}}">☎️ Trial Class Enrollment</a> <!--By date -->
             <a href="{{route('lead_attendance.index')}}">☎️ View Lead Attendance</a> <!--By date -->

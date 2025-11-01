@@ -33,6 +33,7 @@
                                 <th>Total Fee (₹)</th>
                                 <th>Paid (₹)</th>
                                 <th>Pending (₹)</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -48,6 +49,12 @@
                                         @else
                                             <span class="badge bg-success">Paid</span>
                                         @endif
+                                    </td>
+
+                                    <td>
+                                        <a href="{{ route('student_finance.payments', $r->student_id) }}" class="btn btn-sm btn-outline-primary">
+                                            <i class="bi bi-eye"></i> View
+                                        </a>
                                     </td>
                                 </tr>
                             @endforeach

@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Expense;
-use App\Models\Batch;
 use App\Models\ExpenseCategory;
 use App\Models\ExpenseSubCategory;
 use Illuminate\Http\Request;
@@ -15,14 +14,9 @@ class ExpenseController extends Controller
      */
     public function index(Request $request)
     {
-        $batches = Batch::orderBy('title')->get();
+        $query = Expense::with(['subcategory.category']);
 
-        $query = Expense::with(['batch', 'subcategory.category']);
-
-        if ($request->filled('batch_id')) {
-            $query->where('batch_id', $request->batch_id);
-        }
-
+        // 🔍 Date filters
         if ($request->filled('from_date') && $request->filled('to_date')) {
             $query->whereBetween('expense_date', [$request->from_date, $request->to_date]);
         } elseif ($request->filled('from_date')) {
@@ -33,7 +27,7 @@ class ExpenseController extends Controller
 
         $expenses = $query->orderBy('expense_date', 'desc')->paginate(10);
 
-        return view('expenses.index', compact('expenses', 'batches'));
+        return view('expenses.index', compact('expenses'));
     }
 
     /**
@@ -41,11 +35,10 @@ class ExpenseController extends Controller
      */
     public function create()
     {
-        $batches = Batch::orderBy('title')->get();
         $categories = ExpenseCategory::orderBy('category_name')->get();
         $subcategories = ExpenseSubCategory::orderBy('sub_category_name')->get();
 
-        return view('expenses.create', compact('batches', 'categories', 'subcategories'));
+        return view('expenses.create', compact('categories', 'subcategories'));
     }
 
     /**
@@ -54,7 +47,6 @@ class ExpenseController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'batch_id' => 'nullable|exists:batches,id',
             'category_id' => 'required|exists:expense_category_tbl,id',
             'subcategory_id' => 'required|exists:expense_subcategory_tbl,id',
             'amount' => 'required|numeric|min:0',
@@ -64,7 +56,6 @@ class ExpenseController extends Controller
         ]);
 
         Expense::create([
-            'batch_id' => $request->batch_id,
             'category_id' => $request->category_id,
             'subcategory_id' => $request->subcategory_id,
             'amount' => $request->amount,
@@ -81,19 +72,17 @@ class ExpenseController extends Controller
      */
     public function edit(Expense $expense)
     {
-        $batches = Batch::orderBy('title')->get();
         $categories = ExpenseCategory::orderBy('category_name')->get();
 
-    // ✅ Use safe null check
-    $categoryId = optional($expense->subcategory)->category_id;
+        $categoryId = optional($expense->subcategory)->category_id;
 
-    $subcategories = $categoryId
-        ? ExpenseSubCategory::where('category_id', $categoryId)
-            ->orderBy('sub_category_name')
-            ->get()
-        : collect(); // empty collection if null
+        $subcategories = $categoryId
+            ? ExpenseSubCategory::where('category_id', $categoryId)
+                ->orderBy('sub_category_name')
+                ->get()
+            : collect();
 
-    return view('expenses.edit', compact('expense', 'batches', 'categories', 'subcategories'));
+        return view('expenses.edit', compact('expense', 'categories', 'subcategories'));
     }
 
     /**
@@ -102,7 +91,6 @@ class ExpenseController extends Controller
     public function update(Request $request, Expense $expense)
     {
         $request->validate([
-            'batch_id' => 'nullable|exists:batches,id',
             'category_id' => 'required|exists:expense_category_tbl,id',
             'subcategory_id' => 'required|exists:expense_subcategory_tbl,id',
             'amount' => 'required|numeric|min:0',
@@ -112,7 +100,6 @@ class ExpenseController extends Controller
         ]);
 
         $expense->update([
-            'batch_id' => $request->batch_id,
             'category_id' => $request->category_id,
             'subcategory_id' => $request->subcategory_id,
             'amount' => $request->amount,
