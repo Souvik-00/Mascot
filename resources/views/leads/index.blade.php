@@ -48,7 +48,7 @@
                             {{ $lead->marketingSource->lead_source ?? 'N/A' }}
                         </td>
                         <td class="text-end">
-                            <a href="{{ route('leads.show', $lead->id) }}" class="btn btn-sm btn-outline-info">👁️ View</a>
+                            {{-- <a href="{{ route('leads.show', $lead->id) }}" class="btn btn-sm btn-outline-info">👁️ View</a> --}}
                             <a href="{{ route('leads.edit', $lead->id) }}" class="btn btn-sm btn-outline-warning">✏️ Edit</a>
                             <form action="{{ route('leads.destroy', $lead->id) }}" method="POST" class="d-inline">
                                 @csrf

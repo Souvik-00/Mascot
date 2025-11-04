@@ -164,8 +164,8 @@
         <div class="collapse {{ request()->is('students*') ? 'show' : '' }}" id="studentsMenu">
             <a href="{{ route('students.index') }}">📋 List</a>
             <a href="{{ route('students.search') }}">🔍 Search</a>
-            <a href="{{route('batch_students.index')}}">🔍 Batch Assignment</a>
-            <a href="{{route('student_attendance.create')}}">🔍 Student Attendance</a>
+            <a href="{{route('batch_students.index')}}">🎖️ Batch Assignment</a>
+            <a href="{{route('student_attendance.create')}}">👨‍👨 Student Attendance</a>
         </div>
 
         <button class="btn" data-bs-toggle="collapse" data-bs-target="#teachersMenu">
@@ -175,8 +175,8 @@
         <div class="collapse {{ request()->is('teachers*') ? 'show' : '' }}" id="teachersMenu">
             <a href="{{ route('teachers.index') }}">📋 List</a>
             <a href="{{ route('teachers.search') }}">🔍 Search</a>
-            <a href="{{route('batch_teachers.index')}}">🔍 Teacher Batch</a>
-            <a href="{{route('teacher_attendance.create')}}">🔍 Teacher Attendance</a>
+            <a href="{{route('batch_teachers.index')}}">🎖️ Teacher Batch</a>
+            <a href="{{route('teacher_attendance.create')}}">👩🏻‍🏫📚 Teacher Attendance</a>
         </div>
 
         <!-- ACADEMICS -->
@@ -214,7 +214,7 @@
             <span class="arrow">&#9656;</span>
         </button>
         <div class="collapse {{ request()->is('payments*') ? 'show' : '' }}" id="paymentsMenu">
-            <a href="{{ route('payments.index') }}">📋 All Payments</a>
+            <a href="{{ route('payments.index') }}">💵 All Payments</a>
         </div>
 
         <button class="btn" data-bs-toggle="collapse" data-bs-target="#expensesMenu">
@@ -222,7 +222,7 @@
             <span class="arrow">&#9656;</span>
         </button>
         <div class="collapse {{ request()->is('expenses*') ? 'show' : '' }}" id="expensesMenu">
-            <a href="{{ route('expenses.index') }}">📋 All Expenses</a>
+            <a href="{{ route('expenses.index') }}">💲 All Expenses</a>
         </div>
 
          <button class="btn" data-bs-toggle="collapse" data-bs-target="#reportsMenu">
@@ -230,11 +230,11 @@
             <span class="arrow">&#9656;</span>
         </button>
         <div class="collapse {{ request()->is('reports*') ? 'show' : '' }}" id="reportsMenu">
-            <a href="{{route('finance.reports')}}">📋 Reports</a>
-            <a href="{{route('student_finance.index')}}">📋 Students Payment Status</a>
-            <a href="{{route('categorywise_expense.index')}}">📋 Categorywise Expense</a>
-            <a href="{{route('department_expense.index')}}">📋 Expense DepartmentWise</a>
-            <a href="{{route('net_income.index')}}">📋 Net Income</a>
+            <a href="{{route('finance.reports')}}">📑 Reports</a>
+            <a href="{{route('student_finance.index')}}">📑 Students Payment Status</a>
+            <a href="{{route('categorywise_expense.index')}}">📑 Categorywise Expense</a>
+            <a href="{{route('department_expense.index')}}">📑 Expense DepartmentWise</a>
+            <a href="{{route('net_income.index')}}">📑 Net Income</a>
         </div>
 
         <button class="btn" data-bs-toggle="collapse" data-bs-target="#expensecatMenu">
@@ -242,8 +242,8 @@
             <span class="arrow">&#9656;</span>
         </button>
         <div class="collapse {{ request()->is('expensecat*') ? 'show' : '' }}" id="expensecatMenu">
-            <a href="{{route('expense_category.index')}}">📋 Expense Category List</a>
-            <a href="{{route('expense_subcategory.index')}}">📋 Expense Sub-Category List</a>
+            <a href="{{route('expense_category.index')}}">🗞️ Expense Category List</a>
+            <a href="{{route('expense_subcategory.index')}}">🗞️ Expense Sub-Category List</a>
         </div>
 
         <!-- ADMINISTRATION -->
@@ -255,7 +255,7 @@
             <span class="arrow">&#9656;</span>
         </button>
         <div class="collapse {{ request()->is('users*') ? 'show' : '' }}" id="usersMenu">
-            <a href="{{ route('users.index') }}">👥 List</a>
+            <a href="{{ route('users.index') }}">📋 List</a>
             <a href="{{ route('users.search') }}">🔍 Search</a>
         </div>
 
@@ -264,7 +264,7 @@
             <span class="arrow">&#9656;</span>
         </button>
         <div class="collapse {{ request()->is('users*') ? 'show' : '' }}" id="departmentMenu">
-            <a href="{{ route('department.index') }}">👥 List</a>
+            <a href="{{ route('department.index') }}">📋 List</a>
         </div>
 
 
@@ -403,9 +403,9 @@
         <div class="collapse" id="reportMenu">
             <a href="{{ route('students.index') }}">📘 Show Current Students</a>
             <a href="{{route('leads_trial.index')}}">☎️ Trial Class Enrollment</a> <!--By date -->
-            <a href="{{route('lead_attendance.index')}}">☎️ View Lead Attendance</a> <!--By date -->
-            <a href="{{route('student_attendance.index')}}">🔍 View Student Attendance</a>
-            <a href="{{route('teacher_attendance.index')}}">🔍 View Teacher Attendance</a>
+            <a href="{{route('lead_attendance.index')}}">🛎 View Lead Attendance</a> <!--By date -->
+            <a href="{{route('student_attendance.index')}}">🛎 View Student Attendance</a>
+            <a href="{{route('teacher_attendance.index')}}">🛎 View Teacher Attendance</a>
             <a href="#">☎️ Payments By Students</a> <!--By date -->
             <a href="#">☎️ Dues By Students</a>
             <a href="#">☎️ Expense By Category</a> <!--By date -->

@@ -1,67 +1,68 @@
 <x-layout>
     <div class="container mt-4">
+
         {{-- Header --}}
-        <div class="d-flex justify-content-between align-items-center mb-3">
+        <div class="text-center mb-4">
             <h4 class="fw-bold text-primary mb-0">
-                <i class="bi bi-graph-up-arrow"></i> Department-wise Net Income Report
+                <i class="bi bi-cash-coin"></i> Department-wise Net Income Report
             </h4>
         </div>
 
         {{-- 🔍 Date Range Filter --}}
-        <form method="GET" class="row g-3 mb-3">
-            <div class="col-md-4">
-                <label class="form-label">From Date</label>
-                <input type="date" name="from_date" value="{{ $fromDate }}" class="form-control">
+        <form method="GET" class="row g-3 mb-4 justify-content-center">
+            <div class="col-md-3">
+                <label class="form-label fw-semibold">From Date</label>
+                <input type="date" name="from_date" value="{{ request('from_date', $fromDate) }}" class="form-control">
             </div>
-            <div class="col-md-4">
-                <label class="form-label">To Date</label>
-                <input type="date" name="to_date" value="{{ $toDate }}" class="form-control">
+            <div class="col-md-3">
+                <label class="form-label fw-semibold">To Date</label>
+                <input type="date" name="to_date" value="{{ request('to_date', $toDate) }}" class="form-control">
             </div>
-            <div class="col-md-4 d-flex align-items-end">
+            <div class="col-md-2 d-flex align-items-end">
                 <button class="btn btn-primary w-100">
-                    <i class="bi bi-search"></i> Filter
+                    <i class="bi bi-search"></i> Search
                 </button>
             </div>
         </form>
 
-        {{-- Results --}}
-        @if($results)
+        {{-- 📊 Departmentwise Payments --}}
+        @if(count($results) > 0)
             <div class="card shadow-sm">
                 <div class="card-body p-0">
-                    <table class="table table-bordered align-middle mb-0">
-                        <thead class="table-light">
+                    <table class="table table-bordered text-center align-middle mb-0">
+                        <thead class="table-dark">
                             <tr>
                                 <th>Department</th>
-                                <th class="text-end">Total Payment (₹)</th>
-                                <th class="text-end">Total Expense (₹)</th>
-                                <th class="text-end">Net Income (₹)</th>
+                                <th>Total Payment (₹)</th>
+                                <th>Total Expense (₹)</th>
+                                <th>Net Income (₹)</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($results as $row)
+                            @foreach($results as $row)
                                 <tr>
-                                    <td>{{ $row['department'] }}</td>
-                                    <td class="text-end text-success fw-semibold">{{ number_format($row['total_payment'], 2) }}</td>
-                                    <td class="text-end text-danger fw-semibold">{{ number_format($row['total_expense'], 2) }}</td>
-                                    <td class="text-end fw-bold {{ $row['net_income'] >= 0 ? 'text-success' : 'text-danger' }}">
-                                        ₹{{ number_format($row['net_income'], 2) }}
-                                    </td>
+                                    <td class="text-start fw-semibold">{{ $row['department'] }}</td>
+                                    <td>{{ number_format($row['total_payment'], 2) }}</td>
+                                    <td></td>
+                                    <td></td>
                                 </tr>
                             @endforeach
 
-                            {{-- Grand Totals --}}
+                            {{-- ✅ Grand Total Row --}}
                             <tr class="table-secondary fw-bold">
-                                <td class="text-end">Grand Total:</td>
-                                <td class="text-end text-success">₹{{ number_format($grandTotal['grand_payment'], 2) }}</td>
-                                <td class="text-end text-danger">₹{{ number_format($grandTotal['grand_expense'], 2) }}</td>
-                                <td class="text-end text-primary">₹{{ number_format($grandTotal['grand_net'], 2) }}</td>
+                                <td class="text-start">Grand Total</td>
+                                <td>{{ number_format($grandPayment, 2) }}</td>
+                                <td>{{ number_format($totalExpense, 2) }}</td>
+                                <td class="{{ $netIncome >= 0 ? 'text-success' : 'text-danger' }}">
+                                    {{ number_format($netIncome, 2) }}
+                                </td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
             </div>
         @else
-            <div class="alert alert-info text-center mt-3">
+            <div class="alert alert-info text-center mt-4">
                 <i class="bi bi-info-circle"></i> No records found for this date range.
             </div>
         @endif
